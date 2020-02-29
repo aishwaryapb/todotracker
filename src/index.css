@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Roboto');
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Roboto, sans-serif;
+}
+
+.loader-dots {
+    animation: dots 2.8s infinite;
+}
+
+.loader-dots span {
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    margin-left: 5vw;
+    background: #000;
+    border-radius: 50%;
+}
+
+@keyframes dots {
+    25% {
+        transform: translateX(-10vw);
+    }
+
+    50% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(10vw);
+    }
+}
