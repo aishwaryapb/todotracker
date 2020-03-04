@@ -32,7 +32,7 @@ class MenuItems extends React.Component {
                         )
                     })
                 }
-                <Button onClick={this.props.logout}>Logout</Button>
+                <Button onClick={this.props.logout} hm={2}>Logout</Button>
             </React.Fragment>
         )
     }
