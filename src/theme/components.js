@@ -51,7 +51,7 @@ export const Button = styled.button.attrs(props => ({
     font-size: ${props => props.theme.small}px;
     border: none;
     padding: 4px 15px;
-    margin: ${props => props.margin ?? '0 2vw'};
+    margin: ${props => `${props.vm ? props.vm : 0}vh ${props.hm ? props.hm : 0}vw`};
     min-width: 10vw;
     min-height: 6vh;
     border-radius: 5px;
@@ -125,4 +125,15 @@ export const Loader = styled.div`
     height: 50px;
     animation: ${spin} 2s linear infinite;
     margin: ${props => props.top ? props.top + 'vh' : "auto"} auto;
+`;
+
+export const Error = styled.div`
+    background-color: #f44336;
+    border-radius: 2px;
+    color: white;
+    width: 50%;
+    height: 30px;
+    margin: auto;
+    padding-top: 2vh;
+    font-size: 14px;
 `;

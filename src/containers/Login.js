@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { LoginContainer, Input, Button, Right, Loader } from '../theme/components';
+import { LoginContainer, Input, Button, Right, Loader, Error, Center } from '../theme/components';
 import { login } from '../actions/auth';
 
 class Login extends React.Component {
@@ -16,7 +16,7 @@ class Login extends React.Component {
     handleLogin = () => this.props.login(this.state)
 
     render() {
-        const { loggingIn, loggedIn, location } = this.props;
+        const { loggingIn, loggedIn, location, error } = this.props;
         const returnTo = location.state?.returnTo ?? '/categories';
         return (
             <LoginContainer>
@@ -30,8 +30,9 @@ class Login extends React.Component {
                                     <form onSubmit={this.handleLogin}>
                                         <Input type="text" name="email" onChange={this.handleInputChange} placeholder="Email" value={this.state.email} /><br />
                                         <Input type="password" name="password" onChange={this.handleInputChange} placeholder="Password" value={this.state.password} /><br />
+                                        {error && <Center><Error>{error}</Error></Center>}
                                         <Right>
-                                            <Button type="submit" margin={0} onClick={this.handleLogin}>Login</Button>
+                                            <Button type="submit" vm={4} onClick={this.handleLogin}>Login</Button>
                                         </Right>
                                     </form>
                                 </React.Fragment>

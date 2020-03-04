@@ -7,7 +7,7 @@ export const verifyAuth = () => dispatch => {
         .auth()
         .onAuthStateChanged(user => {
             if (user !== null) {
-                dispatch({ type: "LOGIN_SUCCESS" });
+                dispatch({ type: "LOGIN_SUCCESS", payload: user.email });
             }
             else dispatch({ type: "LOGIN_REQUIRED" })
         });
@@ -18,11 +18,13 @@ export const login = (credentials) => (dispatch) => {
     firebase
         .auth()
         .signInWithEmailAndPassword(credentials.email, credentials.password)
-        .then(authResult => {
-            dispatch({ type: "LOGIN_SUCCESS" });
+        .then(({ user }) => {
+            dispatch({ type: "LOGIN_SUCCESS", payload: user.email });
         })
         .catch(err => {
-            dispatch({ type: "LOGIN_FAILED" });
+            let msg = err.code.split('/')[1].replace(/-/g, " ");
+            msg = msg.replace(/\b\w/g, l => l.toUpperCase());
+            dispatch({ type: "LOGIN_FAILED", payload: msg });
         })
 }
 
