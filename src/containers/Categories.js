@@ -2,22 +2,38 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { fetchCategories, reorderCategories } from '../actions/categories';
+import { Center, CategoriesContainer } from '../theme/components';
+import DraggableList from '../components/DraggableList';
+
 class Categories extends React.Component {
 
+    componentDidMount() {
+        this.props.fetchCategories();
+    }
+
     render() {
-        const { loggedIn } = this.props;
-        return loggedIn
-            ? <div style={{ margin: '10vh 8vh', opacity: '10%', fontSize: '40px' }}>CATEGORIES</div>
-            : <Redirect to={{ pathname: '/', state: { returnTo: '/categories' } }} />;
+        const { loggedIn, categories } = this.props;
+        return !loggedIn
+            ? <Redirect to={{ pathname: '/', state: { returnTo: '/categories' } }} />
+            : (
+                <Center>
+                    <CategoriesContainer>
+                        <DraggableList items={categories} reorder={this.props.reorderCategories} />
+                    </CategoriesContainer>
+                </Center>
+            )
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, categories }) => {
     return {
-        loggedIn: auth.loggedIn
+        loggedIn: auth.loggedIn,
+        categories: categories.data
     }
 }
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    { fetchCategories, reorderCategories }
 )(Categories);

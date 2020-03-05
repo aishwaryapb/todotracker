@@ -5,5 +5,6 @@ export const theme = {
     navBarHeight: 14,
     large: 30,
     medium: 24,
-    small: 20
+    small: 20,
+    xSmall: 14
 }

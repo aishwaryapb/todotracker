@@ -135,5 +135,30 @@ export const Error = styled.div`
     height: 30px;
     margin: auto;
     padding-top: 2vh;
-    font-size: 14px;
+    font-size: ${props => props.theme.xSmall}px;
+`;
+
+export const DragContainer = styled.ul`
+    color: black;
+    list-style: none;
+`;
+
+export const DragList = styled.li`
+    background-color: white;
+    padding: 1vh 1vw;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2vh;
+    min-height: 5vh;
+`;
+
+export const DraggableItem = styled.div`
+    margin-right: 2vw;
+    cursor: move;
+`;
+
+export const CategoriesContainer = styled.div`
+    margin: 5vh auto;
+    width: 50vw;
+    padding: 5vh 5vw;
 `;

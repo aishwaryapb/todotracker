@@ -31,3 +31,20 @@ export const addCategory = (name, order, user) => (dispatch) => {
             dispatch({ type: "CATEGORIES_ERROR", payload: msg })
         });
 }
+
+export const reorderCategories = (categories) => (dispatch, getState) => {
+    const { auth } = getState();
+    const { user } = auth;
+    db.collection('categories')
+        .where("user", "==", user)
+        .get()
+        .then(querySnapshot => {
+            let batch = db.batch();
+            querySnapshot.docs.forEach(doc => {
+                const docRef = db.collection('categories').doc(doc.id);
+                const item = doc.data();
+                batch.update(docRef, { ...item, order: categories.findIndex(category => category.id === doc.id) });
+            });
+            batch.commit();
+        });
+}
