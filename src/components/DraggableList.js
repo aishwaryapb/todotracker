@@ -6,14 +6,14 @@ import { DragContainer, DragList, DraggableItem } from '../theme/components';
 class DraggableList extends React.Component {
 
     onDragStart = (e, index) => {
-        this.draggedItem = this.state.items[index];
+        this.draggedItem = this.props.items[index];
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/html", e.target.parentNode);
         e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
     };
 
     onDragOver = index => {
-        const draggedOverItem = this.state.items[index];
+        const draggedOverItem = this.props.items[index];
 
         // if the item is dragged over itself, ignore
         if (this.draggedItem.id === draggedOverItem.id) {
@@ -21,28 +21,20 @@ class DraggableList extends React.Component {
         }
 
         // filter out the currently dragged item
-        let items = this.state.items.filter(item => item.id !== this.draggedItem.id);
+        let items = this.props.items.filter(item => item.id !== this.draggedItem.id);
 
         // add the dragged item after the dragged over item
         items.splice(index, 0, this.draggedItem);
 
-        this.setState({ items });
+        this.props.update(items);
     };
 
-    onDragEnd = () => this.props.reorder(this.state.items);
-
-    componentDidUpdate() {
-        if (!this.state?.items) {
-            this.setState({
-                items: this.props.items || []
-            });
-        }
-    }
+    onDragEnd = () => this.props.reorder(this.props.items);
 
     render() {
         return (
             <DragContainer>
-                {this.state?.items?.map((item, idx) => (
+                {this.props?.items?.map((item, idx) => (
                     <DragList key={idx} onDragOver={() => this.onDragOver(idx)}>
                         <DraggableItem
                             draggable
@@ -51,7 +43,7 @@ class DraggableList extends React.Component {
                         >
                             <Hamburger className="hamburger" />
                         </DraggableItem>
-                        <span className="content">{item.name}</span>
+                        {item.name}
                     </DragList>
                 ))}
             </DragContainer>

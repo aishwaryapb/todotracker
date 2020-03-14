@@ -11,11 +11,12 @@ import MenuItems from './components/MenuItems';
 import Login from './containers/Login';
 import Categories from './containers/Categories';
 import Tracker from './containers/Tracker';
+import HorizontalLoader from './components/HorizontalLoader';
 
 class App extends Component {
 
     render() {
-        const { loggedIn } = this.props;
+        const { loggedIn, loading } = this.props;
         return (
             <ThemeProvider theme={theme}>
                 <Container>
@@ -24,6 +25,7 @@ class App extends Component {
                             <Logo src={logo} />
                             {loggedIn && <Menu><MenuItems /></Menu>}
                         </NavBar>
+                        {loading && <HorizontalLoader />}
                         <Switch>
                             <Route path="/" exact component={Login} />
                             <Route path="/categories" exact component={Categories} />
@@ -36,9 +38,10 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, common }) => {
     return {
-        loggedIn: auth.loggedIn
+        loggedIn: auth.loggedIn,
+        loading: common.loading
     }
 }
 
