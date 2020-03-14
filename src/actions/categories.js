@@ -1,6 +1,8 @@
 import { db } from '../firebase';
+import { setLoading } from '.';
 
 export const fetchCategories = () => (dispatch, getState) => {
+    dispatch(setLoading(true));
     const { auth } = getState();
     const { user } = auth;
     user &&
@@ -12,6 +14,7 @@ export const fetchCategories = () => (dispatch, getState) => {
             .then(querySnapshot => {
                 const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
                 dispatch({ type: "FETCH_CATEGORIES", payload: data });
+                dispatch(setLoading(false));
             })
             .catch(err => {
                 console.error(err);
@@ -20,15 +23,29 @@ export const fetchCategories = () => (dispatch, getState) => {
             });
 }
 
-export const addCategory = (name, order, user) => (dispatch) => {
+export const updateCategories = (categories) => {
+    return {
+        type: "UPDATE_CATEGORIES",
+        payload: categories
+    }
+}
+
+export const addCategory = (name, categories) => (dispatch, getState) => {
+    dispatch(setLoading(true));
+    const { auth } = getState();
+    const { user } = auth;
+    const lastIndex = categories[categories.length - 1]?.order;
     db.collection('categories')
         .doc()
-        .set({ name, order, user })
-        .then(() => dispatch({ type: 'CATEGORY_CREATED' }))
+        .set({ name, order: lastIndex !== undefined ? lastIndex + 1 : 0, user })
+        .then(() => {
+            dispatch(fetchCategories());
+        })
         .catch(err => {
             console.error(err);
             let msg = "Unable to create category";
-            dispatch({ type: "CATEGORIES_ERROR", payload: msg })
+            dispatch({ type: "CATEGORIES_ERROR", payload: msg });
+            dispatch(setLoading(false));
         });
 }
 

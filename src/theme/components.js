@@ -106,6 +106,8 @@ export const Right = styled.div`
 export const Center = styled.div`
     width: 100%;
     text-align: center;
+    overflow-y: ${props => props.overflow.y};
+    overflow-x: ${props => props.overflow.x};
 `;
 
 const spin = keyframes`
@@ -141,6 +143,8 @@ export const Error = styled.div`
 export const DragContainer = styled.ul`
     color: black;
     list-style: none;
+    margin: 0;
+    display: inline;
 `;
 
 export const DragList = styled.li`
@@ -155,10 +159,24 @@ export const DragList = styled.li`
 export const DraggableItem = styled.div`
     margin-right: 2vw;
     cursor: move;
+    font-size: ${props => props.theme.medium}px;
 `;
 
 export const CategoriesContainer = styled.div`
     margin: 5vh auto;
     width: 50vw;
     padding: 5vh 5vw;
+`;
+
+export const ListInput = styled.input.attrs(props => ({
+    type: props.type,
+    placeholder: props.placeholder
+}))`
+    background-color: white;
+    color: black;
+    border: none;
+    width: 96%;
+    min-height: 5vh;
+    padding: 1vh 1vw;
+    font-size: ${props => props.theme.xSmall}px;
 `;

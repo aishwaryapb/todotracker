@@ -1,11 +1,13 @@
 import { combineReducers } from "redux";
 import { firebaseReducer } from 'react-redux-firebase'
 
-import authReducer from './auth';
-import categoriesReducer from './categories';
+import auth from './auth';
+import categories from './categories';
+import common from './common';
 
 export default combineReducers({
     firebase: firebaseReducer,
-    auth: authReducer,
-    categories: categoriesReducer
+    auth,
+    categories,
+    common
 });
