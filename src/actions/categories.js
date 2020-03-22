@@ -65,3 +65,21 @@ export const reorderCategories = (categories) => (dispatch, getState) => {
             batch.commit();
         });
 }
+
+export const deleteCategory = (categoryId) => (dispatch) => {
+    db.collection('categories')
+        .doc(categoryId)
+        .delete()
+        .then(() =>
+            dispatch({
+                type: "DELETE_CATEGORY",
+                payload: categoryId
+            })
+        )
+        .catch(err =>
+            dispatch({
+                type: "CATEGORIES_ERROR",
+                payload: "Unable to delete category"
+            })
+        )
+}

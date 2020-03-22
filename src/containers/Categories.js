@@ -2,7 +2,13 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchCategories, reorderCategories, addCategory, updateCategories } from '../actions/categories';
+import {
+    fetchCategories,
+    reorderCategories,
+    addCategory,
+    updateCategories,
+    deleteCategory
+} from '../actions/categories';
 import { Center, CategoriesContainer, ListInput } from '../theme/components';
 import DraggableList from '../components/DraggableList';
 
@@ -29,7 +35,12 @@ class Categories extends React.Component {
             : (
                 <Center overflow={{ y: "auto", x: "hidden" }}>
                     <CategoriesContainer>
-                        <DraggableList items={categories} reorder={this.props.reorderCategories} update={this.props.updateCategories} />
+                        <DraggableList
+                            items={categories}
+                            reorder={this.props.reorderCategories}
+                            update={this.props.updateCategories}
+                            delete={this.props.deleteCategory}
+                        />
                         <ListInput type="text" placeholder="Add category" onKeyUp={this.handleAddItem} />
                     </CategoriesContainer>
                 </Center>
@@ -46,5 +57,11 @@ const mapStateToProps = ({ auth, categories }) => {
 
 export default connect(
     mapStateToProps,
-    { fetchCategories, reorderCategories, addCategory, updateCategories }
+    {
+        fetchCategories,
+        reorderCategories,
+        addCategory,
+        updateCategories,
+        deleteCategory
+    }
 )(Categories);
