@@ -1,7 +1,12 @@
 import React from "react";
 
 import { ReactComponent as Hamburger } from "../assets/icons/hamburger.svg";
-import { DragContainer, DragList, DraggableItem } from '../theme/components';
+import { ReactComponent as Delete } from "../assets/icons/trash.svg";
+import { DragContainer, DragList, DraggableItem, Right } from '../theme/components';
+
+const fitContent = {
+    minWidth: "fit-content"
+};
 
 class DraggableList extends React.Component {
 
@@ -43,7 +48,8 @@ class DraggableList extends React.Component {
                         >
                             <Hamburger className="hamburger" />
                         </DraggableItem>
-                        {item.name}
+                        <div style={fitContent}>{item.name}</div>
+                        <Right><Delete className="delete" onClick={() => this.props.delete(item.id)} /></Right>
                     </DragList>
                 ))}
             </DragContainer>

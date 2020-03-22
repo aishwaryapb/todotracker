@@ -12,6 +12,14 @@ body {
     color: #707070;
 }
 
+.delete {
+    height: 1rem;
+}
+
+.delete path {
+    fill: #ff6961;
+}
+
 /* HorizontalLoader */
 
 .loader-wrapper {

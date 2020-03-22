@@ -36,5 +36,5 @@ export const logout = () => dispatch => {
             dispatch({ type: "LOG_OUT" });
             history.replace('/');
         })
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
 }
