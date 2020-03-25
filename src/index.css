@@ -20,6 +20,10 @@ body {
     fill: #ff6961;
 }
 
+.delete:hover {
+    cursor: pointer;
+}
+
 /* HorizontalLoader */
 
 .loader-wrapper {

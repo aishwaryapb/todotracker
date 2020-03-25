@@ -106,8 +106,8 @@ export const Right = styled.div`
 export const Center = styled.div`
     width: 100%;
     text-align: center;
-    overflow-y: ${props => props.overflow.y};
-    overflow-x: ${props => props.overflow.x};
+    overflow-y: ${props => props.overflow?.y || "auto"};
+    overflow-x: ${props => props.overflow?.x || "auto"};
 `;
 
 const spin = keyframes`
@@ -179,4 +179,48 @@ export const ListInput = styled.input.attrs(props => ({
     min-height: 5vh;
     padding: 1vh 1vw;
     font-size: ${props => props.theme.xSmall}px;
+`;
+
+export const TrackerContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 85vw;
+    height: 80vh;
+    margin: auto;
+    margin-top: 6vh;
+    overflow-y: auto;
+`;
+
+export const CategoriesTracker = styled.div`
+    margin: 2vh;
+    margin-right: 0;
+    width: 20vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+`;
+
+export const TasksContainer = styled.div`
+    margin: 2vh;
+    margin-left: 0;
+    width: 65vw;
+    height: auto;
+`;
+
+export const Tile = styled.div`
+    margin: auto;
+    width: 60px;
+    background-color: ${props => props.theme.secondaryColor};
+    color: white;
+    font-size: ${props => props.theme.large}px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 60px;
+`;
+
+export const Connector = styled.div`
+    margin: auto;
+    width: 6px;
+    height: 45px;
+    background-color: ${props => props.theme.primaryColor};
 `;
