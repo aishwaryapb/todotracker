@@ -205,22 +205,29 @@ export const TasksContainer = styled.div`
     margin-left: 0;
     width: 65vw;
     height: auto;
+    background-color: ${props => props.theme.yellow};
 `;
 
 export const Tile = styled.div`
-    margin: auto;
-    width: 60px;
-    background-color: ${props => props.theme.secondaryColor};
+    margin: ${props => props.isSelected ? "0" : "auto"};
+    width: ${props => props.isSelected ? "100%" : "60px"};
+    height: ${props => props.isSelected ? "100px" : "auto"};
+    background-color: ${props => props.isSelected ? props.theme.yellow : props.theme.secondaryColor};
     color: white;
-    font-size: ${props => props.theme.large}px;
+    font-size: ${props => props.isSelected ? props.theme.xLarge : props.theme.large}px;
     font-weight: 800;
     text-align: center;
-    line-height: 60px;
+    line-height: ${props => props.isSelected ? "100px" : "60px"};
+
+    &:hover {
+        cursor: pointer;
+    }
 `;
 
 export const Connector = styled.div`
+    opacity: 80%;
     margin: auto;
-    width: 6px;
+    width: 4px;
     height: 45px;
     background-color: ${props => props.theme.primaryColor};
 `;
