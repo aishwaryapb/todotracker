@@ -143,8 +143,11 @@ export const Error = styled.div`
 export const DragContainer = styled.ul`
     color: black;
     list-style: none;
-    margin: 0;
-    display: inline;
+    margin: 0 auto;
+    display: ${props => props.type};
+    text-align: center;
+    width: max-content;
+    padding: 0;
 `;
 
 export const DragList = styled.li`
@@ -154,6 +157,7 @@ export const DragList = styled.li`
     align-items: center;
     margin-bottom: 2vh;
     min-height: 5vh;
+    width: ${props => props.width ? (props.width +"vw") : "auto"};
 `;
 
 export const DraggableItem = styled.div`
@@ -175,7 +179,7 @@ export const ListInput = styled.input.attrs(props => ({
     background-color: white;
     color: black;
     border: none;
-    width: 96%;
+    width: ${props => props.width}%;
     min-height: 5vh;
     padding: 1vh 1vw;
     font-size: ${props => props.theme.xSmall}px;
@@ -206,6 +210,8 @@ export const TasksContainer = styled.div`
     width: 65vw;
     height: auto;
     background-color: ${props => props.theme.yellow};
+    text-align: center;
+    padding-top: 5vh;
 `;
 
 export const Tile = styled.div`
