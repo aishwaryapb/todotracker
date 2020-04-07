@@ -36,12 +36,13 @@ class Categories extends React.Component {
                 <Center overflow={{ y: "auto", x: "hidden" }}>
                     <CategoriesContainer>
                         <DraggableList
+                            type="inline"
                             items={categories}
                             reorder={this.props.reorderCategories}
                             update={this.props.updateCategories}
                             delete={this.props.deleteCategory}
                         />
-                        <ListInput type="text" placeholder="Add category" onKeyUp={this.handleAddItem} />
+                        <ListInput type="text" placeholder="Add category" onKeyUp={this.handleAddItem} width="96"/>
                     </CategoriesContainer>
                 </Center>
             )

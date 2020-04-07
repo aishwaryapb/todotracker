@@ -38,9 +38,10 @@ class DraggableList extends React.Component {
 
     render() {
         return (
-            <DragContainer>
+            this.props.items?.length > 0 &&
+            <DragContainer type={this.props.type}>
                 {this.props?.items?.map((item, idx) => (
-                    <DragList key={idx} onDragOver={() => this.onDragOver(idx)}>
+                    <DragList key={idx} onDragOver={() => this.onDragOver(idx)} width={this.props.width}>
                         <DraggableItem
                             draggable
                             onDragStart={e => this.onDragStart(e, idx)}

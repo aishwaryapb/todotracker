@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { setLoading } from '.';
+import { setLoading , setError} from '.';
 
 export const fetchCategories = () => (dispatch, getState) => {
     dispatch(setLoading(true));
@@ -12,14 +12,14 @@ export const fetchCategories = () => (dispatch, getState) => {
 
             .get()
             .then(querySnapshot => {
-                const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                const data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), id: doc.id }));
                 dispatch({ type: "FETCH_CATEGORIES", payload: data });
                 dispatch(setLoading(false));
             })
             .catch(err => {
                 console.error(err);
                 let msg = "Unable to retrieve categories";
-                dispatch({ type: "CATEGORIES_ERROR", payload: msg })
+                dispatch(setError(msg));
             });
 }
 
@@ -44,7 +44,7 @@ export const addCategory = (name, categories) => (dispatch, getState) => {
         .catch(err => {
             console.error(err);
             let msg = "Unable to create category";
-            dispatch({ type: "CATEGORIES_ERROR", payload: msg });
+            dispatch(setError(msg));
             dispatch(setLoading(false));
         });
 }
@@ -63,7 +63,12 @@ export const reorderCategories = (categories) => (dispatch, getState) => {
                 batch.update(docRef, { ...item, order: categories.findIndex(category => category.id === doc.id) });
             });
             batch.commit();
-        });
+        })
+        .catch(err => {
+            console.error(err);
+            let msg = "Unable to reorder the categories";
+            dispatch(setError(msg));
+        })
 }
 
 export const deleteCategory = (categoryId) => (dispatch) => {
@@ -76,10 +81,9 @@ export const deleteCategory = (categoryId) => (dispatch) => {
                 payload: categoryId
             })
         )
-        .catch(err =>
-            dispatch({
-                type: "CATEGORIES_ERROR",
-                payload: "Unable to delete category"
-            })
-        )
+        .catch(err => {
+            console.error(err);
+            let msg = "Unable to delete the category";
+            dispatch(setError(msg));
+        })
 }
