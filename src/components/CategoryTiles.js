@@ -11,6 +11,7 @@ class CategoryTiles extends React.Component {
 
     handleSelect = (category) => {
         this.setState({selected: category.id});
+        this.props.selectCategory(category);
         this.props.fetchTasks(category.id);
     }
 
@@ -47,7 +48,7 @@ class CategoryTiles extends React.Component {
 
 const mapStateToProps = ({ categories }) => {
     return {
-        categories: categories.data
+        categories
     }
 }
 

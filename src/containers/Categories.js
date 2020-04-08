@@ -52,7 +52,7 @@ class Categories extends React.Component {
 const mapStateToProps = ({ auth, categories }) => {
     return {
         loggedIn: auth.loggedIn,
-        categories: categories.data
+        categories
     }
 }
 

@@ -11,6 +11,15 @@ export default (state = initialState, action) => {
             return {...state, data: state.data?.filter(task => task.id !== action.payload)};
         case "SELECT_CATEGORY":
             return {...state, selectedCategory: action.payload};
+        case "TOGGLE_TASK":
+            return {
+                ...state, 
+                data: state.data.map(task => {
+                    return action.payload.id === task.id
+                        ? {...action.payload, completed: !action.payload.completed}
+                        : task
+                })
+            }
         default:
             return state;
     }

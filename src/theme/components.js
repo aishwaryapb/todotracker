@@ -151,7 +151,8 @@ export const DragContainer = styled.ul`
 `;
 
 export const DragList = styled.li`
-    background-color: white;
+    background-color: ${props => props.toggled ? props.theme.green : 'white'};
+    color: ${props => props.toggled ? 'white' : 'black'};
     padding: 1vh 1vw;
     display: flex;
     align-items: center;
@@ -162,7 +163,6 @@ export const DragList = styled.li`
 
 export const DraggableItem = styled.div`
     margin-right: 2vw;
-    cursor: move;
     font-size: ${props => props.theme.medium}px;
 `;
 

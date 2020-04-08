@@ -4,6 +4,7 @@ export const theme = {
     primaryColor: '#303C6C',
     secondaryColor: '#F4976C',
     yellow: '#FBE8A6',
+    green: '#5CDB95',
     navBarHeight: 14,
     xLarge: 48,
     large: 30,
