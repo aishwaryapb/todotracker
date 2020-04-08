@@ -15,7 +15,7 @@ class Tracker extends React.Component {
 
     render() {
         const { loggedIn } = this.props;
-        /* @todo: Create an empty component to display where are no categories */
+        // TODO Create an empty component to display where are no categories
         return !loggedIn
             ? <Redirect to={{ pathname: '/', state: { returnTo: '/tracker' } }} />
             : (

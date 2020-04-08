@@ -17,12 +17,12 @@ class App extends Component {
 
     render() {
         const { loggedIn, loading } = this.props;
+        // TODO Change logo
         return (
             <ThemeProvider theme={theme}>
                 <Container>
                     <Router history={history}>
                         <NavBar>
-                            {/* @todo: Change the logo */}
                             <Logo src={logo} />
                             {loggedIn && <Menu><MenuItems /></Menu>}
                         </NavBar>
