@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import DraggableList from './DraggableList';
 import {ListInput} from '../theme/components';
-import {reorderTasks, updateTasks, deleteTask, addTask} from '../actions/tasks';
+import {reorderTasks, updateTasks, deleteTask, addTask, toggleTask} from '../actions/tasks';
 
 class TasksList extends React.Component {
 
@@ -17,16 +17,17 @@ class TasksList extends React.Component {
     }
 
     render() {
-        const {tasks} = this.props;
+        const {tasks, toggleTask, reorderTasks, updateTasks, deleteTask} = this.props;
         return (
             <React.Fragment>
                     <DraggableList
+                        toggleItem={toggleTask}
                         width="38"
                         type="inherit"
                         items={tasks}
-                        reorder={this.props.reorderTasks}
-                        update={this.props.updateTasks}
-                        delete={this.props.deleteTask}
+                        reorder={reorderTasks}
+                        update={updateTasks}
+                        delete={deleteTask}
                     />
                     <ListInput type="text" placeholder="Add Task" onKeyUp={this.handleAddItem} width="60"/>
             </React.Fragment>
@@ -36,12 +37,11 @@ class TasksList extends React.Component {
 
 const mapStateToProps = ({tasks}) => {
     return {
-        tasks: tasks.data,
-        category: tasks.selectedCategory
+        tasks: tasks.data
     }
 }
 
 export default connect(
     mapStateToProps,
-    {reorderTasks, updateTasks, deleteTask, addTask}
+    {reorderTasks, updateTasks, deleteTask, addTask, toggleTask}
 )(TasksList);

@@ -1,5 +1,6 @@
 import { db } from '../firebase';
 import { setLoading , setError} from '.';
+import {deleteAssociatedTasks} from './tasks';
 
 export const fetchCategories = () => (dispatch, getState) => {
     dispatch(setLoading(true));
@@ -7,9 +8,8 @@ export const fetchCategories = () => (dispatch, getState) => {
     const { user } = auth;
     user &&
         db.collection('categories')
-            .orderBy("order", "asc")
             .where("user", "==", user)
-
+            .orderBy("order", "asc")
             .get()
             .then(querySnapshot => {
                 const data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), id: doc.id }));
@@ -75,12 +75,13 @@ export const deleteCategory = (categoryId) => (dispatch) => {
     db.collection('categories')
         .doc(categoryId)
         .delete()
-        .then(() =>
+        .then(() => {
             dispatch({
                 type: "DELETE_CATEGORY",
                 payload: categoryId
-            })
-        )
+            });
+            deleteAssociatedTasks(categoryId);
+        })
         .catch(err => {
             console.error(err);
             let msg = "Unable to delete the category";

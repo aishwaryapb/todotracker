@@ -7,13 +7,17 @@ body {
     overflow: hidden;
 }
 
+svg {
+    height: 1.3rem;
+    width: 1.3rem;
+}
+
 .hamburger {
-    height: 1rem;
     color: #707070;
 }
 
-.delete {
-    height: 1rem;
+.hamburger:hover {
+    cursor: move;
 }
 
 .delete path {
