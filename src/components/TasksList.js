@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import DraggableList from './DraggableList';
-import {ListInput} from '../theme/components';
+import {ListInput, TasksContainer,CategoryName} from '../theme/components';
 import {reorderTasks, updateTasks, deleteTask, addTask, toggleTask} from '../actions/tasks';
 
 class TasksList extends React.Component {
@@ -17,9 +17,10 @@ class TasksList extends React.Component {
     }
 
     render() {
-        const {tasks, toggleTask, reorderTasks, updateTasks, deleteTask} = this.props;
-        return (
-            <React.Fragment>
+        const {tasks, toggleTask, reorderTasks, updateTasks, deleteTask, categories, selectedCategory} = this.props;
+        return categories.length !== 0 &&  (
+            <TasksContainer>
+                    <CategoryName>{selectedCategory?.name}</CategoryName>
                     <DraggableList
                         toggleItem={toggleTask}
                         width="38"
@@ -30,15 +31,17 @@ class TasksList extends React.Component {
                         delete={deleteTask}
                     />
                     <ListInput type="text" placeholder="Add Task" onKeyUp={this.handleAddItem} width="60"/>
-            </React.Fragment>
+            </TasksContainer>
         );
     }
 }
 
-const mapStateToProps = ({tasks}) => {
+const mapStateToProps = ({tasks, categories}) => {
     return {
-        tasks: tasks.data
-    }
+        tasks: tasks.data,
+        selectedCategory: tasks.selectedCategory,
+        categories
+    }   
 }
 
 export default connect(

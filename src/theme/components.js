@@ -211,7 +211,8 @@ export const TasksContainer = styled.div`
     height: auto;
     background-color: ${props => props.theme.yellow};
     text-align: center;
-    padding-top: 5vh;
+    padding: 3vh 0;
+    overflow-y: auto;
 `;
 
 export const Tile = styled.div`
@@ -236,4 +237,11 @@ export const Connector = styled.div`
     width: 4px;
     height: 45px;
     background-color: ${props => props.theme.primaryColor};
+`;
+
+export const CategoryName = styled.div`
+    color: font;
+    margin-bottom: 4vh;
+    font-size: ${props => props.theme.large}px;
+    font-weight: 800;
 `;

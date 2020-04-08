@@ -27,13 +27,14 @@ class CategoryTiles extends React.Component {
 
     render() {
         const { categories } = this.props;
+        const {selected} = this.state;
         return (
             <Center>
                 {
                     categories?.map((category, index) => {
                         return (
                             <React.Fragment key={index}>
-                                <Tile isSelected={this.state.selected === category.id} onClick={() => this.handleSelect(category)}>
+                                <Tile isSelected={selected === category.id || (selected === undefined && index === 0)} onClick={() => this.handleSelect(category)}>
                                     {index + 1}
                                 </Tile>
                                 {(index !== categories.length - 1) && <Connector />}

@@ -22,6 +22,7 @@ class App extends Component {
                 <Container>
                     <Router history={history}>
                         <NavBar>
+                            {/* @todo: Change the logo */}
                             <Logo src={logo} />
                             {loggedIn && <Menu><MenuItems /></Menu>}
                         </NavBar>

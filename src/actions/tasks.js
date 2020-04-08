@@ -65,6 +65,7 @@ export const reorderTasks = (reorderedTasks) => (dispatch, getState) => {
         })
 }
 
+//@todo: Fix the error thrown in console after delete
 export const deleteTask = (taskId) => (dispatch) => {
     db.collection('tasks')
         .doc(taskId)

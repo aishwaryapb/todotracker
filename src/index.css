@@ -1,10 +1,18 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Roboto');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 body {
     padding: 0;
     margin: 0;
-    font-family: Roboto, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #a9a9a97d;
+    border-radius: 10px;
 }
 
 svg {
