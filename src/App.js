@@ -17,7 +17,7 @@ class App extends Component {
 
     render() {
         const { loggedIn, loading } = this.props;
-        // TODO Change logo
+        // @todo Change logo
         return (
             <ThemeProvider theme={theme}>
                 <Container>
