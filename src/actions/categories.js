@@ -43,7 +43,7 @@ export const addCategory = (name, categories) => (dispatch, getState) => {
     const lastIndex = categories[categories.length - 1]?.order;
     db.collection('categories')
         .doc()
-        .set({ name, order: lastIndex !== undefined ? lastIndex + 1 : 0, user })
+        .set({ name, order: lastIndex !== undefined ? lastIndex + 1 : 0, user, completed: false })
         .then(() => {
             dispatch(fetchCategories());
         })
@@ -95,4 +95,24 @@ export const deleteCategory = (categoryId) => (dispatch) => {
             let msg = "Unable to delete the category";
             dispatch(setError(msg));
         })
+}
+
+export const toggleCategoryCompletion = (tasks, isTaskComplete) => {
+    const docRef = db.collection("categories").doc(tasks[0].categoryId);
+    const promise = new Promise((resolve, reject) => {
+        if (isTaskComplete) {
+            const isCategoryComplete = tasks.filter(task => task.completed === true).length === tasks.length - 1;
+            if (isCategoryComplete) {
+                docRef.set({ completed: true }, { merge: true })
+                    .then(() => resolve(true))
+                    .catch(() => reject());
+            };
+        }
+        else {
+            docRef.set({ completed: false }, { merge: true })
+                .then(() => resolve(false))
+                .catch(() => reject());
+        }
+    });
+    return promise;
 }

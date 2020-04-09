@@ -46,23 +46,23 @@ class DraggableList extends React.Component {
     onDragEnd = () => this.props.reorder(this.props.items);
 
     render() {
-        const { toggleItem } = this.props;
+        const { toggleItem, items, type, width } = this.props;
         return (
-            this.props.items?.length > 0 &&
-            <DragContainer type={this.props.type}>
+            items?.length > 0 &&
+            <DragContainer type={type}>
                 {
-                    this.props?.items?.map((item, idx) => {
+                    items?.map((item, idx) => {
                         const extraProps = toggleItem !== undefined
                             ? {
                                 onClick: () => {
                                     if (this.isDeleting) this.isDeleting = false
-                                    else toggleItem(item)
+                                    else toggleItem(items, item)
                                 },
                                 toggled: item.completed
                             }
                             : {};
                         return (
-                            <DragList key={idx} onDragOver={() => this.onDragOver(idx)} width={this.props.width} {...extraProps}>
+                            <DragList key={idx} onDragOver={() => this.onDragOver(idx)} width={width} {...extraProps}>
                                 <DraggableItem
                                     draggable
                                     onDragStart={e => this.onDragStart(e, idx)}
