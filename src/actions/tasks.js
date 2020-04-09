@@ -1,5 +1,7 @@
+import { batch } from 'react-redux';
+
 import { db } from '../firebase';
-import {setLoading, setError} from '.';
+import { setLoading, setError } from '.';
 
 export const fetchTasks = (categoryId) => async (dispatch, getState) => {
     dispatch(setLoading(true));
@@ -12,18 +14,23 @@ export const fetchTasks = (categoryId) => async (dispatch, getState) => {
             .orderBy("order", "asc")
             .get()
             .then(querySnapshot => {
-                const data = querySnapshot?.docs?.map(doc => ({...doc.data(), id: doc.id}));
-                dispatch({
-                    type: "FETCH_TASKS",
-                    payload: data
+                const data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), id: doc.id }));
+                batch(() => {
+                    dispatch({
+                        type: "FETCH_TASKS",
+                        payload: data
+                    });
+                    dispatch(setLoading(false));
                 });
-                dispatch(setLoading(false))
+
             })
             .catch(err => {
                 console.error(err);
                 let msg = "Unable to retrieve tasks";
-                dispatch(setError(msg))
-                dispatch(setLoading(false))
+                batch(() => {
+                    dispatch(setError(msg));
+                    dispatch(setLoading(false));
+                });
             });
 }
 
@@ -42,9 +49,9 @@ export const selectCategory = (category) => {
 }
 
 export const reorderTasks = (reorderedTasks) => (dispatch, getState) => {
-    const { auth, tasks} = getState();
+    const { auth, tasks } = getState();
     const { user } = auth;
-    const {selectedCategory} = tasks;
+    const { selectedCategory } = tasks;
     db.collection('tasks')
         .where("user", "==", user)
         .where("categoryId", "==", selectedCategory.id)
@@ -87,33 +94,38 @@ export const addTask = (name) => (dispatch, getState) => {
     dispatch(setLoading(true));
     const { auth, tasks } = getState();
     const { user } = auth;
-    const {data, selectedCategory} = tasks;
+    const { data, selectedCategory } = tasks;
     const lastIndex = data[data.length - 1]?.order;
-    selectedCategory && 
-    db.collection('tasks')
-        .doc()
-        .set({ 
-            name, 
-            order: lastIndex !== undefined ? lastIndex + 1 : 0, 
-            user, 
-            categoryId: selectedCategory.id, 
-            completed: false 
-        })
-        .then(() => {
-            dispatch(fetchTasks(selectedCategory.id));
-        })
-        .catch(err => {
-            console.error(err);
-            let msg = "Unable to add the task";
-            dispatch(setError(msg));
-            dispatch(setLoading(false));
-        });
+    selectedCategory &&
+        db.collection('tasks')
+            .doc()
+            .set({
+                name,
+                order: lastIndex !== undefined ? lastIndex + 1 : 0,
+                user,
+                categoryId: selectedCategory.id,
+                completed: false
+            })
+            .then(() => {
+                batch(() => {
+                    dispatch(fetchTasks(selectedCategory.id));
+                    dispatch(setLoading(false));
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                let msg = "Unable to add the task";
+                batch(() => {
+                    dispatch(setError(msg));
+                    dispatch(setLoading(false));
+                });
+            });
 }
 
 export const toggleTask = (task) => dispatch => {
     db.collection("tasks")
         .doc(task.id)
-        .update({...task, completed: !task.completed})
+        .update({ ...task, completed: !task.completed })
         .then(() => {
             dispatch({
                 type: "TOGGLE_TASK",

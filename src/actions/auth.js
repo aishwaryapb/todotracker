@@ -1,5 +1,8 @@
+import { batch } from 'react-redux'
+
 import firebase from '../firebase';
 import history from '../history';
+import { setError } from '.';
 
 export const verifyAuth = () => dispatch => {
     dispatch({ type: "REQUEST_LOGIN" });
@@ -24,7 +27,10 @@ export const login = (credentials) => (dispatch) => {
         .catch(err => {
             let msg = err.code.split('/')[1].replace(/-/g, " ");
             msg = msg.replace(/\b\w/g, l => l.toUpperCase());
-            dispatch({ type: "LOGIN_FAILED", payload: msg });
+            batch(() => {
+                dispatch(setError(msg));
+                dispatch({ type: "LOGIN_FAILED" })
+            });
         })
 }
 

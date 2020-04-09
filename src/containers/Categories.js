@@ -42,7 +42,7 @@ class Categories extends React.Component {
                             update={this.props.updateCategories}
                             delete={this.props.deleteCategory}
                         />
-                        <ListInput type="text" placeholder="Add category" onKeyUp={this.handleAddItem} width="96"/>
+                        <ListInput type="text" placeholder="Add category" onKeyUp={this.handleAddItem} width="96" />
                     </CategoriesContainer>
                 </Center>
             )

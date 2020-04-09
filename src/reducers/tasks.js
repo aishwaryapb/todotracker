@@ -3,23 +3,25 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case "FETCH_TASKS":
         case "UPDATE_TASKS":
-            return {...state, data: action.payload || []};
+            return { ...state, data: action.payload || [] };
         case "DELETE_TASK":
-            return {...state, data: state.data?.filter(task => task.id !== action.payload)};
+            return { ...state, data: state.data?.filter(task => task.id !== action.payload) };
         case "SELECT_CATEGORY":
-            return {...state, selectedCategory: action.payload};
+            return { ...state, selectedCategory: action.payload, data: [] };
         case "TOGGLE_TASK":
             return {
-                ...state, 
+                ...state,
                 data: state.data.map(task => {
                     return action.payload.id === task.id
-                        ? {...action.payload, completed: !action.payload.completed}
+                        ? { ...action.payload, completed: !action.payload.completed }
                         : task
                 })
             }
+        case "CLEAR_TRACKER":
+            return initialState;
         default:
             return state;
     }

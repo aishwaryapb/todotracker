@@ -12,28 +12,53 @@ import Login from './containers/Login';
 import Categories from './containers/Categories';
 import Tracker from './containers/Tracker';
 import HorizontalLoader from './components/HorizontalLoader';
+import Modal from './components/Modal';
+import { setError } from './actions';
+import CONFIG from './config';
+
 
 class App extends Component {
 
+    handleOfflineConnection = () => {
+        this.props.setError(CONFIG.messages.connectivityLost);
+    }
+
+    componentDidMount() {
+        window.addEventListener('offline', this.handleOfflineConnection);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('offline', this.handleOfflineConnection)
+    }
+
     render() {
-        const { loggedIn, loading } = this.props;
+        const { loggedIn, loading, error } = this.props;
         // @todo Change logo
         return (
             <ThemeProvider theme={theme}>
-                <Container>
-                    <Router history={history}>
-                        <NavBar>
-                            <Logo src={logo} />
-                            {loggedIn && <Menu><MenuItems /></Menu>}
-                        </NavBar>
-                        {loading && <HorizontalLoader />}
-                        <Switch>
-                            <Route path="/" exact component={Login} />
-                            <Route path="/categories" exact component={Categories} />
-                            <Route path="/tracker" exact component={Tracker} />
-                        </Switch>
-                    </Router>
-                </Container>
+                <React.Fragment>
+                    <Modal
+                        heading={CONFIG.messages.errorTitle}
+                        body={error}
+                        error
+                        visible={error !== undefined}
+                        onClose={this.props.setError}
+                    />
+                    <Container>
+                        <Router history={history}>
+                            <NavBar>
+                                <Logo src={logo} />
+                                {loggedIn && <Menu><MenuItems /></Menu>}
+                            </NavBar>
+                            {loading && <HorizontalLoader />}
+                            <Switch>
+                                <Route path="/" exact component={Login} />
+                                <Route path="/categories" exact component={Categories} />
+                                <Route path="/tracker" exact component={Tracker} />
+                            </Switch>
+                        </Router>
+                    </Container>
+                </React.Fragment>
             </ThemeProvider>
         )
     }
@@ -42,10 +67,12 @@ class App extends Component {
 const mapStateToProps = ({ auth, common }) => {
     return {
         loggedIn: auth.loggedIn,
-        loading: common.loading
+        loading: common.loading,
+        error: common.error
     }
 }
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    { setError }
 )(App);

@@ -129,17 +129,6 @@ export const Loader = styled.div`
     margin: ${props => props.top ? props.top + 'vh' : "auto"} auto;
 `;
 
-export const Error = styled.div`
-    background-color: #f44336;
-    border-radius: 2px;
-    color: white;
-    width: 50%;
-    height: 30px;
-    margin: auto;
-    padding-top: 2vh;
-    font-size: ${props => props.theme.xSmall}px;
-`;
-
 export const DragContainer = styled.ul`
     color: black;
     list-style: none;
@@ -158,7 +147,7 @@ export const DragList = styled.li`
     align-items: center;
     margin-bottom: 2vh;
     min-height: 5vh;
-    width: ${props => props.width ? (props.width +"vw") : "auto"};
+    width: ${props => props.width ? (props.width + "vw") : "auto"};
 `;
 
 export const DraggableItem = styled.div`
@@ -244,4 +233,51 @@ export const CategoryName = styled.div`
     margin-bottom: 4vh;
     font-size: ${props => props.theme.large}px;
     font-weight: 800;
+`;
+
+const slideDown = keyframes`
+    from {
+        top:-60vh;
+        opacity:0
+    }
+    to {
+        top:0;
+        opacity:1
+    }
+`;
+
+export const ModalContent = styled.div`
+    position: relative;
+    background-color: white;
+    margin: auto;
+    padding: 0;
+    width: 40%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation: ${slideDown} 0.5s ease-in-out;    
+`;
+
+export const ModalHeader = styled.div`
+    border-radius: 10px 10px 0 0;
+    padding: 2px 16px;
+    background-color: ${props => props.error ? props.theme.red : props.theme.green};
+    color: white;
+`;
+
+export const ModalBody = styled.div`
+    padding: 5vh 5vw;
+    text-align: center;
+`;
+
+export const Close = styled.span`
+    color: white;
+    float: right;
+    font-size: ${props => props.theme.xLarge}px;
+    font-weight: bold;
+
+    &:hover {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
 `;
