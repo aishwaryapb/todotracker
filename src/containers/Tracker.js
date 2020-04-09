@@ -6,11 +6,16 @@ import { Center, TrackerContainer, CategoriesTracker } from '../theme/components
 import CategoryTiles from '../components/CategoryTiles';
 import TasksList from '../components/TasksList';
 import { fetchCategories } from '../actions/categories';
+import { clearTracker } from '../actions';
 
 class Tracker extends React.Component {
 
     componentDidMount() {
         this.props.fetchCategories();
+    }
+
+    componentWillUnmount() {
+        this.props.clearTracker();
     }
 
     render() {
@@ -40,5 +45,5 @@ const mapStateToProps = ({ auth }) => {
 
 export default connect(
     mapStateToProps,
-    { fetchCategories }
+    { fetchCategories, clearTracker }
 )(Tracker);

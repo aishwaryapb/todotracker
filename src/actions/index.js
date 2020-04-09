@@ -11,3 +11,7 @@ export const setError = (error) => {
         payload: error
     }
 }
+
+export const clearTracker = () => ({
+    type: "CLEAR_TRACKER"
+})

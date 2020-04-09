@@ -1,6 +1,7 @@
 import { db } from '../firebase';
-import { setLoading , setError} from '.';
-import {deleteAssociatedTasks} from './tasks';
+import { setLoading, setError } from '.';
+import { deleteAssociatedTasks } from './tasks';
+import { batch } from 'react-redux';
 
 export const fetchCategories = () => (dispatch, getState) => {
     dispatch(setLoading(true));
@@ -13,13 +14,18 @@ export const fetchCategories = () => (dispatch, getState) => {
             .get()
             .then(querySnapshot => {
                 const data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), id: doc.id }));
-                dispatch({ type: "FETCH_CATEGORIES", payload: data });
-                dispatch(setLoading(false));
+                batch(() => {
+                    dispatch({ type: "FETCH_CATEGORIES", payload: data });
+                    dispatch(setLoading(false));
+                });
             })
             .catch(err => {
                 console.error(err);
                 let msg = "Unable to retrieve categories";
-                dispatch(setError(msg));
+                batch(() => {
+                    dispatch(setLoading(false));
+                    dispatch(setError(msg));
+                });
             });
 }
 
@@ -44,8 +50,10 @@ export const addCategory = (name, categories) => (dispatch, getState) => {
         .catch(err => {
             console.error(err);
             let msg = "Unable to create category";
-            dispatch(setError(msg));
-            dispatch(setLoading(false));
+            batch(() => {
+                dispatch(setError(msg));
+                dispatch(setLoading(false));
+            });
         });
 }
 
