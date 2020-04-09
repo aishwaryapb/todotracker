@@ -2,7 +2,7 @@ import React from "react";
 
 import { ReactComponent as Hamburger } from "../assets/icons/hamburger.svg";
 import { ReactComponent as Delete } from "../assets/icons/trash.svg";
-import {ReactComponent as Tick} from "../assets/icons/tick.svg";
+import { ReactComponent as Tick } from "../assets/icons/tick.svg";
 import { DragContainer, DragList, DraggableItem, Right } from '../theme/components';
 
 const fitContent = {
@@ -11,6 +11,13 @@ const fitContent = {
 };
 
 class DraggableList extends React.Component {
+
+    isDeleting = false;
+
+    handleDelete = (itemId) => {
+        this.isDeleting = true;
+        this.props.delete(itemId)
+    }
 
     onDragStart = (e, index) => {
         this.draggedItem = this.props.items[index];
@@ -39,18 +46,21 @@ class DraggableList extends React.Component {
     onDragEnd = () => this.props.reorder(this.props.items);
 
     render() {
-        const {toggleItem} = this.props;
+        const { toggleItem } = this.props;
         return (
             this.props.items?.length > 0 &&
             <DragContainer type={this.props.type}>
                 {
                     this.props?.items?.map((item, idx) => {
-                        const extraProps = toggleItem !== undefined 
-                        ? {
-                            onClick: () => toggleItem(item),
-                            toggled: item.completed 
-                        } 
-                        : {};
+                        const extraProps = toggleItem !== undefined
+                            ? {
+                                onClick: () => {
+                                    if (this.isDeleting) this.isDeleting = false
+                                    else toggleItem(item)
+                                },
+                                toggled: item.completed
+                            }
+                            : {};
                         return (
                             <DragList key={idx} onDragOver={() => this.onDragOver(idx)} width={this.props.width} {...extraProps}>
                                 <DraggableItem
@@ -61,11 +71,11 @@ class DraggableList extends React.Component {
                                     {item.completed === true ? <Tick /> : <Hamburger className="hamburger" />}
                                 </DraggableItem>
                                 <div style={fitContent}>{item.name}</div>
-                                {item.completed !== true && <Right><Delete className="delete" onClick={() => this.props.delete(item.id)} /></Right>}
+                                {item.completed !== true && <Right><Delete className="delete" onClick={() => this.handleDelete(item.id)} /></Right>}
                             </DragList>
                         )
-                })
-            }
+                    })
+                }
             </DragContainer>
         );
     }
