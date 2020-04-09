@@ -2,6 +2,7 @@ import { batch } from 'react-redux';
 
 import { db } from '../firebase';
 import { setLoading, setError } from '.';
+import { toggleCategoryCompletion, fetchCategories } from './categories';
 
 export const fetchTasks = (categoryId) => async (dispatch, getState) => {
     dispatch(setLoading(true));
@@ -72,16 +73,18 @@ export const reorderTasks = (reorderedTasks) => (dispatch, getState) => {
         })
 }
 
-export const deleteTask = (taskId) => (dispatch) => {
+// @todo: Update category completion on every delete task. Write a common action
+
+export const deleteTask = (task) => (dispatch) => {
     db.collection('tasks')
-        .doc(taskId)
+        .doc(task.id)
         .delete()
-        .then(() =>
+        .then(() => {
             dispatch({
                 type: "DELETE_TASK",
-                payload: taskId
-            })
-        )
+                payload: task.id
+            });
+        })
         .catch((err) => {
             console.error(err);
             let msg = "Unable to delete the task";
@@ -106,6 +109,12 @@ export const addTask = (name) => (dispatch, getState) => {
                 completed: false
             })
             .then(() => {
+                db.collection("categories").doc(selectedCategory.id)
+                    .set({ completed: false }, { merge: true })
+                    .then(() => {
+                        dispatch(fetchCategories());
+                        dispatch(toggleSelectedCategory(false));
+                    })
                 batch(() => {
                     dispatch(fetchTasks(selectedCategory.id));
                     dispatch(setLoading(false));
@@ -121,11 +130,18 @@ export const addTask = (name) => (dispatch, getState) => {
             });
 }
 
-export const toggleTask = (task) => dispatch => {
+export const toggleTask = (tasks, task) => async dispatch => {
     db.collection("tasks")
         .doc(task.id)
         .update({ ...task, completed: !task.completed })
         .then(() => {
+            toggleCategoryCompletion(tasks, !task.completed)
+                .then((isCategoryComplete) => {
+                    batch(() => {
+                        dispatch(fetchCategories());
+                        dispatch(toggleSelectedCategory(isCategoryComplete));
+                    });
+                });
             dispatch({
                 type: "TOGGLE_TASK",
                 payload: task
@@ -147,3 +163,8 @@ export const deleteAssociatedTasks = (categoryId) => {
         })
         .catch(err => console.error(err));
 }
+
+const toggleSelectedCategory = (isComplete) => ({
+    type: "TOGGLE_SELECTED_CATEGORY",
+    payload: isComplete
+})

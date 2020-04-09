@@ -198,7 +198,7 @@ export const TasksContainer = styled.div`
     margin-left: 0;
     width: 65vw;
     height: auto;
-    background-color: ${props => props.theme.yellow};
+    background-color: ${props => props.isCompleted ? props.theme.green : props.theme.yellow};
     text-align: center;
     padding: 3vh 0;
     overflow-y: auto;
@@ -208,7 +208,7 @@ export const Tile = styled.div`
     margin: ${props => props.isSelected ? "0" : "auto"};
     width: ${props => props.isSelected ? "100%" : "60px"};
     height: ${props => props.isSelected ? "100px" : "auto"};
-    background-color: ${props => props.isSelected ? props.theme.yellow : props.theme.secondaryColor};
+    background-color: ${props => props.isCompleted ? props.theme.green : (props.isSelected ? props.theme.yellow : props.theme.secondaryColor)};
     color: white;
     font-size: ${props => props.isSelected ? props.theme.xLarge : props.theme.large}px;
     font-weight: 800;
