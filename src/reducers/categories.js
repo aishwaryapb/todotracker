@@ -5,6 +5,8 @@ export default (state = [], action) => {
             return action.payload || [];
         case "DELETE_CATEGORY":
             return state.filter(category => category.id !== action.payload);
+        case "LOG_OUT":
+            return [];
         default:
             return state;
     }

@@ -21,6 +21,7 @@ export default (state = initialState, action) => {
                 })
             }
         case "CLEAR_TRACKER":
+        case "LOG_OUT":
             return initialState;
         case "ADD_TASK":
             return { ...state, data: [...state.data, action.payload] };

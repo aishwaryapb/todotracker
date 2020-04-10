@@ -15,7 +15,8 @@ import DraggableList from '../components/DraggableList';
 class Categories extends React.Component {
 
     componentDidMount() {
-        this.props.fetchCategories();
+        const { loggedIn } = this.props;
+        if (loggedIn) this.props.fetchCategories();
     }
 
     handleAddItem = (e) => {

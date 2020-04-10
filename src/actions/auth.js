@@ -34,6 +34,23 @@ export const login = (credentials) => (dispatch) => {
         })
 }
 
+export const signUp = ({ email, password }) => dispatch => {
+    dispatch({ type: "REQUEST_SIGN_UP" });
+    firebase.auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(({ user }) => {
+            dispatch({ type: "LOGIN_SUCCESS", payload: user.email });
+        })
+        .catch(err => {
+            let msg = err.code.split('/')[1].replace(/-/g, " ");
+            msg = msg.replace(/\b\w/g, l => l.toUpperCase());
+            batch(() => {
+                dispatch(setError(msg));
+                dispatch({ type: "SIGN_UP_FAILED" })
+            });
+        })
+}
+
 export const logout = () => dispatch => {
     firebase
         .auth()
