@@ -22,6 +22,8 @@ export default (state = initialState, action) => {
             }
         case "CLEAR_TRACKER":
             return initialState;
+        case "ADD_TASK":
+            return { ...state, data: [...state.data, action.payload] };
         case "TOGGLE_SELECTED_CATEGORY":
             return { ...state, selectedCategory: { ...state.selectedCategory, completed: action.payload } };
         default:

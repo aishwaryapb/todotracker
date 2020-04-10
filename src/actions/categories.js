@@ -1,6 +1,6 @@
 import { db } from '../firebase';
 import { setLoading, setError } from '.';
-import { deleteAssociatedTasks } from './tasks';
+import { deleteAssociatedTasks, toggleSelectedCategory } from './tasks';
 import { batch } from 'react-redux';
 
 export const fetchCategories = () => (dispatch, getState) => {
@@ -97,22 +97,19 @@ export const deleteCategory = (categoryId) => (dispatch) => {
         })
 }
 
-export const toggleCategoryCompletion = (tasks, isTaskComplete) => {
-    const docRef = db.collection("categories").doc(tasks[0].categoryId);
-    const promise = new Promise((resolve, reject) => {
-        if (isTaskComplete) {
-            const isCategoryComplete = tasks.filter(task => task.completed === true).length === tasks.length - 1;
-            if (isCategoryComplete) {
-                docRef.set({ completed: true }, { merge: true })
-                    .then(() => resolve(true))
-                    .catch(() => reject());
-            };
-        }
-        else {
-            docRef.set({ completed: false }, { merge: true })
-                .then(() => resolve(false))
-                .catch(() => reject());
-        }
-    });
-    return promise;
+export const toggleCategoryCompletion = () => (dispatch, getState) => {
+    const tasks = getState().tasks.data;
+    let category = getState().tasks.selectedCategory;
+    let categories = getState().categories;
+    const isCategoryComplete = tasks.length !== 0 && tasks.filter(task => task.completed === true).length === tasks.length;
+    category = { ...category, completed: isCategoryComplete };
+    categories = categories.map(cat => cat.id === category.id ? category : cat);
+    db.collection("categories")
+        .doc(category.id)
+        .set({ completed: isCategoryComplete }, { merge: true })
+        .then(() => {
+            dispatch(toggleSelectedCategory(isCategoryComplete));
+            dispatch(updateCategories(categories));
+        });
+
 }

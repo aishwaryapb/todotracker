@@ -2,9 +2,9 @@ import { batch } from 'react-redux';
 
 import { db } from '../firebase';
 import { setLoading, setError } from '.';
-import { toggleCategoryCompletion, fetchCategories } from './categories';
+import { toggleCategoryCompletion } from './categories';
 
-export const fetchTasks = (categoryId) => async (dispatch, getState) => {
+export const fetchTasks = (categoryId) => (dispatch, getState) => {
     dispatch(setLoading(true));
     const { auth } = getState();
     const { user } = auth;
@@ -23,7 +23,6 @@ export const fetchTasks = (categoryId) => async (dispatch, getState) => {
                     });
                     dispatch(setLoading(false));
                 });
-
             })
             .catch(err => {
                 console.error(err);
@@ -73,16 +72,17 @@ export const reorderTasks = (reorderedTasks) => (dispatch, getState) => {
         })
 }
 
-// @todo: Update category completion on every delete task. Write a common action
-
 export const deleteTask = (taskId) => (dispatch) => {
     db.collection('tasks')
         .doc(taskId)
         .delete()
         .then(() => {
-            dispatch({
-                type: "DELETE_TASK",
-                payload: taskId
+            batch(() => {
+                dispatch({
+                    type: "DELETE_TASK",
+                    payload: taskId
+                });
+                dispatch(toggleCategoryCompletion());
             });
         })
         .catch((err) => {
@@ -98,27 +98,25 @@ export const addTask = (name) => (dispatch, getState) => {
     const { user } = auth;
     const { data, selectedCategory } = tasks;
     const lastIndex = data[data.length - 1]?.order;
+    const document = {
+        name,
+        order: lastIndex !== undefined ? lastIndex + 1 : 0,
+        user,
+        categoryId: selectedCategory?.id,
+        completed: false
+    };
     selectedCategory &&
         db.collection('tasks')
-            .doc()
-            .set({
-                name,
-                order: lastIndex !== undefined ? lastIndex + 1 : 0,
-                user,
-                categoryId: selectedCategory.id,
-                completed: false
-            })
-            .then(() => {
-                db.collection("categories").doc(selectedCategory.id)
-                    .set({ completed: false }, { merge: true })
-                    .then(() => {
-                        dispatch(fetchCategories());
-                        dispatch(toggleSelectedCategory(false));
-                    })
+            .add(document)
+            .then((docRef) => {
                 batch(() => {
-                    dispatch(fetchTasks(selectedCategory.id));
+                    dispatch({
+                        type: "ADD_TASK",
+                        payload: { ...document, id: docRef.id }
+                    });
+                    dispatch(toggleCategoryCompletion());
                     dispatch(setLoading(false));
-                });
+                })
             })
             .catch(err => {
                 console.error(err);
@@ -135,17 +133,13 @@ export const toggleTask = (tasks, task) => async dispatch => {
         .doc(task.id)
         .update({ ...task, completed: !task.completed })
         .then(() => {
-            toggleCategoryCompletion(tasks, !task.completed)
-                .then((isCategoryComplete) => {
-                    batch(() => {
-                        dispatch(fetchCategories());
-                        dispatch(toggleSelectedCategory(isCategoryComplete));
-                    });
+            batch(() => {
+                dispatch({
+                    type: "TOGGLE_TASK",
+                    payload: task
                 });
-            dispatch({
-                type: "TOGGLE_TASK",
-                payload: task
-            });
+                dispatch(toggleCategoryCompletion());
+            })
         })
 }
 
@@ -164,7 +158,7 @@ export const deleteAssociatedTasks = (categoryId) => {
         .catch(err => console.error(err));
 }
 
-const toggleSelectedCategory = (isComplete) => ({
+export const toggleSelectedCategory = (isComplete) => ({
     type: "TOGGLE_SELECTED_CATEGORY",
     payload: isComplete
 })
