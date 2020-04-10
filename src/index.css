@@ -22,12 +22,11 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 0;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #a9a9a97d;
-    border-radius: 10px;
+    display: none;
 }
 
 svg {

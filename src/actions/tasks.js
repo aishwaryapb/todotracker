@@ -75,14 +75,14 @@ export const reorderTasks = (reorderedTasks) => (dispatch, getState) => {
 
 // @todo: Update category completion on every delete task. Write a common action
 
-export const deleteTask = (task) => (dispatch) => {
+export const deleteTask = (taskId) => (dispatch) => {
     db.collection('tasks')
-        .doc(task.id)
+        .doc(taskId)
         .delete()
         .then(() => {
             dispatch({
                 type: "DELETE_TASK",
-                payload: task.id
+                payload: taskId
             });
         })
         .catch((err) => {
