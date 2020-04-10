@@ -18,6 +18,7 @@ class Login extends React.Component {
     render() {
         const { loggingIn, loggedIn, location } = this.props;
         const returnTo = location.state?.returnTo ?? '/categories';
+        // @todo: Add sign up
         return (
             <LoginContainer>
                 {
