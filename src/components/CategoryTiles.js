@@ -21,7 +21,7 @@ class CategoryTiles extends React.Component {
         this.props.fetchTasks(category.id);
     }
 
-    componentDidUpdate() {
+    loadTasks() {
         const { categories } = this.props;
         const { selected } = this.state;
         if (selected === undefined && categories?.length > 0) {
@@ -29,6 +29,14 @@ class CategoryTiles extends React.Component {
             this.props.fetchTasks(categories[0].id);
             this.setState({ selected: categories[0].id });
         }
+    }
+
+    componentDidMount() {
+        this.loadTasks();
+    }
+
+    componentDidUpdate() {
+        this.loadTasks();
     }
 
     render() {

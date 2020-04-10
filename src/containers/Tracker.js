@@ -7,6 +7,13 @@ import CategoryTiles from '../components/CategoryTiles';
 import TasksList from '../components/TasksList';
 import { fetchCategories } from '../actions/categories';
 import { clearTracker } from '../actions';
+import NoTasks from '../assets/images/no_data.png';
+
+const imgStyle = {
+    margin: "5vh auto",
+    height: "60vh",
+    width: "auto"
+}
 
 class Tracker extends React.Component {
 
@@ -19,27 +26,34 @@ class Tracker extends React.Component {
     }
 
     render() {
-        const { loggedIn } = this.props;
-        // @todo Create an empty component to display where are no categories
+        const { loggedIn, categories } = this.props;
         return !loggedIn
             ? <Redirect to={{ pathname: '/', state: { returnTo: '/tracker' } }} />
             : (
                 <Center overflow={{ x: "hidden", y: "hidden" }}>
                     <TrackerContainer>
-                        {/* Fix the scroll issue when CaregoriesTracker overflows */}
-                        <CategoriesTracker>
-                            <CategoryTiles />
-                        </CategoriesTracker>
-                        <TasksList />
+                        {
+                            categories.length !== 0
+                                ? (
+                                    <React.Fragment>
+                                        <CategoriesTracker>
+                                            <CategoryTiles />
+                                        </CategoriesTracker>
+                                        <TasksList />
+                                    </React.Fragment>
+                                )
+                                : <img src={NoTasks} alt="No Data" style={imgStyle} />
+                        }
                     </TrackerContainer>
                 </Center>
             )
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, categories }) => {
     return {
-        loggedIn: auth.loggedIn
+        loggedIn: auth.loggedIn,
+        categories
     }
 }
 

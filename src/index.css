@@ -34,20 +34,20 @@ svg {
     width: 1.3rem;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
+.move {
+    cursor: move;
+}
+
 .hamburger {
     color: #707070;
 }
 
-.hamburger:hover {
-    cursor: move;
-}
-
 .delete path {
     fill: #ff6961;
-}
-
-.delete:hover {
-    cursor: pointer;
 }
 
 /* HorizontalLoader */
