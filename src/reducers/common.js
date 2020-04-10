@@ -7,7 +7,9 @@ export default (state = initialState, action) => {
         case "SET_LOADING":
             return { ...state, loading: action.payload };
         case "SET_ERROR":
-            return {...state, error: action.payload};
+            return { ...state, error: action.payload };
+        case "SET_SUCCESS":
+            return { ...state, success: action.payload };
         default:
             return state;
     }

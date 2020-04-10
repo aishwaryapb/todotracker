@@ -2,7 +2,7 @@ import { batch } from 'react-redux'
 
 import firebase from '../firebase';
 import history from '../history';
-import { setError } from '.';
+import { setError, setSuccess } from '.';
 
 export const verifyAuth = () => dispatch => {
     dispatch({ type: "REQUEST_LOGIN" });
@@ -39,7 +39,10 @@ export const logout = () => dispatch => {
         .auth()
         .signOut()
         .then(res => {
-            dispatch({ type: "LOG_OUT" });
+            batch(() => {
+                dispatch({ type: "LOG_OUT" });
+                dispatch(setSuccess("Logged out successfully"));
+            })
             history.replace('/');
         })
         .catch(err => console.error(err));
