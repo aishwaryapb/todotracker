@@ -15,3 +15,10 @@ export const setError = (error) => {
 export const clearTracker = () => ({
     type: "CLEAR_TRACKER"
 })
+
+export const setSuccess = (msg) => {
+    return {
+        type: "SET_SUCCESS",
+        payload: msg
+    }
+}

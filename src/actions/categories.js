@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { setLoading, setError } from '.';
+import { setLoading, setError, setSuccess } from '.';
 import { deleteAssociatedTasks, toggleSelectedCategory } from './tasks';
 import { batch } from 'react-redux';
 
@@ -100,16 +100,29 @@ export const deleteCategory = (categoryId) => (dispatch) => {
 export const toggleCategoryCompletion = () => (dispatch, getState) => {
     const tasks = getState().tasks.data;
     let category = getState().tasks.selectedCategory;
-    let categories = getState().categories;
+    const categories = getState().categories;
+
     const isCategoryComplete = tasks.length !== 0 && tasks.filter(task => task.completed === true).length === tasks.length;
     category = { ...category, completed: isCategoryComplete };
-    categories = categories.map(cat => cat.id === category.id ? category : cat);
+
+    let updatedCategories = [];
+    let isAllCategoriesComplete = true;
+
+    categories.forEach(cat => {
+        const updatedCategory = cat.id === category.id ? category : cat;
+        updatedCategories.push(updatedCategory);
+        if (!updatedCategory.completed) isAllCategoriesComplete = false;
+    });
+
     db.collection("categories")
         .doc(category.id)
         .set({ completed: isCategoryComplete }, { merge: true })
         .then(() => {
-            dispatch(toggleSelectedCategory(isCategoryComplete));
-            dispatch(updateCategories(categories));
+            batch(() => {
+                dispatch(toggleSelectedCategory(isCategoryComplete));
+                dispatch(updateCategories(updatedCategories));
+                if (isAllCategoriesComplete) dispatch(setSuccess("Congratulations! You have completed all your tasks 🎉"))
+            })
         });
 
 }
