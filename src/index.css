@@ -42,6 +42,20 @@ svg {
     cursor: move;
 }
 
+.float-right {
+    float: right;
+}
+
+.link {
+    color: darkblue;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
 .hamburger {
     color: #707070;
 }

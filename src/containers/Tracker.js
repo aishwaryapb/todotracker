@@ -18,7 +18,8 @@ const imgStyle = {
 class Tracker extends React.Component {
 
     componentDidMount() {
-        this.props.fetchCategories();
+        const { loggedIn } = this.props;
+        if (loggedIn) this.props.fetchCategories();
     }
 
     componentWillUnmount() {
