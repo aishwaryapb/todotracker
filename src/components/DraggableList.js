@@ -68,10 +68,10 @@ class DraggableList extends React.Component {
                                     onDragStart={e => this.onDragStart(e, idx)}
                                     onDragEnd={this.onDragEnd}
                                 >
-                                    {item.completed === true ? <Tick /> : <Hamburger className="hamburger" />}
+                                    {item.completed === true ? <Tick className="move" /> : <Hamburger className="hamburger move" />}
                                 </DraggableItem>
                                 <div style={fitContent}>{item.name}</div>
-                                {item.completed !== true && <Right><Delete className="delete" onClick={() => this.handleDelete(item.id)} /></Right>}
+                                {(item.completed !== true || !item.categoryId) && <Right><Delete className="delete pointer" onClick={() => this.handleDelete(item.id)} /></Right>}
                             </DragList>
                         )
                     })
