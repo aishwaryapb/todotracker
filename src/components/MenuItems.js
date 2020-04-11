@@ -15,6 +15,7 @@ class MenuItems extends React.Component {
     render() {
         const { location } = this.props;
         const { selectedKey } = this.state;
+        // @todo add tasks percent complete
         return (
             <React.Fragment>
                 {
