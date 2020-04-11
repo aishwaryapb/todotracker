@@ -33,7 +33,6 @@ class App extends Component {
 
     render() {
         const { loggedIn, loading, error, success } = this.props;
-        // @todo Change logo
         return (
             <ThemeProvider theme={theme}>
                 <React.Fragment>
