@@ -79,16 +79,16 @@ export const reorderCategories = (categories) => (dispatch, getState) => {
         })
 }
 
-export const deleteCategory = (categoryId) => (dispatch) => {
+export const deleteCategory = (category) => (dispatch) => {
     db.collection('categories')
-        .doc(categoryId)
+        .doc(category.id)
         .delete()
         .then(() => {
             dispatch({
                 type: "DELETE_CATEGORY",
-                payload: categoryId
+                payload: category.id
             });
-            deleteAssociatedTasks(categoryId);
+            deleteAssociatedTasks(category.id);
         })
         .catch(err => {
             console.error(err);
@@ -98,9 +98,10 @@ export const deleteCategory = (categoryId) => (dispatch) => {
 }
 
 export const toggleCategoryCompletion = () => (dispatch, getState) => {
-    const tasks = getState().tasks.data;
+    const allTasks = getState().tasks.data;
     let category = getState().tasks.selectedCategory;
     const categories = getState().categories;
+    const tasks = allTasks[category?.id];
 
     const isCategoryComplete = tasks.length !== 0 && tasks.filter(task => task.completed === true).length === tasks.length;
     category = { ...category, completed: isCategoryComplete };

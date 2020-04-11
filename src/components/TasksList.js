@@ -17,8 +17,9 @@ class TasksList extends React.Component {
     }
 
     render() {
-        const { tasks, toggleTask, reorderTasks, updateTasks, deleteTask, categories, selectedCategory } = this.props;
-        return categories.length !== 0 && (
+        const { allTasks, toggleTask, reorderTasks, updateTasks, deleteTask, selectedCategory } = this.props;
+        const tasks = allTasks[selectedCategory?.id];
+        return (
             <TasksContainer isCompleted={selectedCategory?.completed}>
                 <CategoryName>{selectedCategory?.name}</CategoryName>
                 <DraggableList
@@ -36,11 +37,10 @@ class TasksList extends React.Component {
     }
 }
 
-const mapStateToProps = ({ tasks, categories }) => {
+const mapStateToProps = ({ tasks }) => {
     return {
-        tasks: tasks.data,
-        selectedCategory: tasks.selectedCategory,
-        categories
+        allTasks: tasks.data,
+        selectedCategory: tasks.selectedCategory
     }
 }
 

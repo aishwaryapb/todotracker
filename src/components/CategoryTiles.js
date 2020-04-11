@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchTasks, selectCategory } from '../actions/tasks';
+import { selectCategory, fetchAllTasks } from '../actions/tasks';
 import { Center, Tile, Connector } from '../theme/components';
 import { ReactComponent as Tick } from '../assets/icons/tick.svg';
 
@@ -18,15 +18,14 @@ class CategoryTiles extends React.Component {
     handleSelect = (category) => {
         this.setState({ selected: category.id });
         this.props.selectCategory(category);
-        this.props.fetchTasks(category.id);
     }
 
     loadTasks() {
         const { categories } = this.props;
         const { selected } = this.state;
         if (selected === undefined && categories?.length > 0) {
+            this.props.fetchAllTasks();
             this.props.selectCategory(categories[0]);
-            this.props.fetchTasks(categories[0].id);
             this.setState({ selected: categories[0].id });
         }
     }
@@ -69,5 +68,5 @@ const mapStateToProps = ({ categories }) => {
 
 export default connect(
     mapStateToProps,
-    { fetchTasks, selectCategory }
+    { selectCategory, fetchAllTasks }
 )(CategoryTiles);
