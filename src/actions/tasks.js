@@ -4,40 +4,43 @@ import { db } from '../firebase';
 import { setLoading, setError } from '.';
 import { toggleCategoryCompletion } from './categories';
 
-export const fetchTasks = (categoryId) => (dispatch, getState) => {
-    dispatch(setLoading(true));
-    const { auth } = getState();
-    const { user } = auth;
-    user &&
-        db.collection('tasks')
-            .where("user", "==", user)
-            .where("categoryId", "==", categoryId)
-            .orderBy("order", "asc")
-            .get()
-            .then(querySnapshot => {
-                const data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), id: doc.id }));
-                batch(() => {
-                    dispatch({
-                        type: "FETCH_TASKS",
-                        payload: data
-                    });
-                    dispatch(setLoading(false));
+const fetchTasks = (categoryId, user) => {
+    const tasks = new Promise((resolve, reject) => {
+        user &&
+            db.collection('tasks')
+                .where("user", "==", user)
+                .where("categoryId", "==", categoryId)
+                .orderBy("order", "asc")
+                .get()
+                .then(querySnapshot => {
+                    const data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), id: doc.id }));
+                    resolve(data);
+                })
+                .catch(err => {
+                    reject()
                 });
-            })
-            .catch(err => {
-                console.error(err);
-                let msg = "Unable to retrieve tasks";
-                batch(() => {
-                    dispatch(setError(msg));
-                    dispatch(setLoading(false));
-                });
-            });
+    });
+    return tasks;
 }
 
-export const updateTasks = (tasks) => {
+export const fetchAllTasks = () => (dispatch, getState) => {
+    dispatch(setLoading(true));
+    const { categories, auth } = getState();
+    const { user } = auth;
+    categories.forEach((category, index) => {
+        fetchTasks(category.id, user)
+            .then(tasks => {
+                dispatch(updateTasks(tasks, category.id));
+                if (index === categories.length - 1) dispatch(setLoading(false));
+            });
+    });
+}
+
+export const updateTasks = (tasks, categoryId) => {
+    const tasksObj = { [categoryId || tasks[0]?.categoryId]: tasks };
     return {
         type: "UPDATE_TASKS",
-        payload: tasks
+        payload: tasksObj
     }
 }
 
@@ -72,23 +75,26 @@ export const reorderTasks = (reorderedTasks) => (dispatch, getState) => {
         })
 }
 
-export const deleteTask = (taskId) => (dispatch) => {
+export const deleteTask = (task) => (dispatch) => {
+    dispatch(setLoading(true));
     db.collection('tasks')
-        .doc(taskId)
+        .doc(task.id)
         .delete()
         .then(() => {
             batch(() => {
                 dispatch({
                     type: "DELETE_TASK",
-                    payload: taskId
+                    payload: task
                 });
                 dispatch(toggleCategoryCompletion());
+                dispatch(setLoading(false));
             });
         })
         .catch((err) => {
             console.error(err);
             let msg = "Unable to delete the task";
             dispatch(setError(msg));
+            dispatch(setLoading(false));
         });
 }
 
