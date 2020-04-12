@@ -8,10 +8,11 @@ Then you've reached the right place.
 
 ## Features
 
- -  Login/Sign up to use the app.
+ - Login/Sign up to use the app.
  - Create and manage different categories of tasks for your goal
  - Create and manage tasks under each category
  - Get the satisfaction of checking everything off on all your lists!
+ - Bonus: Enjoy the cutest UI for a to-do app
 
 ## Takeaway for React Developers
 
