@@ -9,7 +9,7 @@ export const verifyAuth = () => dispatch => {
     firebase
         .auth()
         .onAuthStateChanged(user => {
-            if (user !== null) {
+            if (user !== null && user.emailVerified === true) {
                 dispatch({ type: "LOGIN_SUCCESS", payload: user.email });
             }
             else dispatch({ type: "LOGIN_REQUIRED" })
@@ -22,7 +22,13 @@ export const login = (credentials) => (dispatch) => {
         .auth()
         .signInWithEmailAndPassword(credentials.email, credentials.password)
         .then(({ user }) => {
-            dispatch({ type: "LOGIN_SUCCESS", payload: user.email });
+            if (user.emailVerified === true) dispatch({ type: "LOGIN_SUCCESS", payload: user.email })
+            else {
+                batch(() => {
+                    dispatch({ type: "LOGIN_FAILED" });
+                    dispatch(setError('Email not verified'));
+                });
+            }
         })
         .catch(err => {
             let msg = err.code.split('/')[1].replace(/-/g, " ");
@@ -38,8 +44,10 @@ export const signUp = ({ email, password }) => dispatch => {
     dispatch({ type: "REQUEST_SIGN_UP" });
     firebase.auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(({ user }) => {
-            dispatch({ type: "LOGIN_SUCCESS", payload: user.email });
+        .then(() => {
+            firebase.auth().currentUser
+                .sendEmailVerification()
+                .then(() => dispatch(setSuccess('Email Verification sent!')))
         })
         .catch(err => {
             let msg = err.code.split('/')[1].replace(/-/g, " ");
