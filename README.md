@@ -4,7 +4,7 @@ This isn't your everyday to do app, it is much more than that, yet simple to use
 
 Do you have a final goal that you've been working towards? And this goal has a lot of tasks which are not manageable in a single list?
 
-Then you've reached the right place.
+Then you've reached the right place. [Try out the app](https://to-do-tracker.netlify.com/)
 
 ## Features
 
