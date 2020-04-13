@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6a78b56d-cfad-4303-9c1c-b78d080b11df/deploy-status)](https://app.netlify.com/sites/to-do-tracker/deploys)
+
 # To Do Tracker
 
 This isn't your everyday to do app, it is much more than that, yet simple to use! 
