@@ -21,7 +21,7 @@ describe('Check Categories Page', () => {
     });
     it('Check conditional display', () => {
         // Not logged in
-        let wrapper = mount(<MemoryRouter><Categories loggedIn={false} fetchCategories={props.fetchCategories} /></MemoryRouter>);
+        let wrapper = mount(<MemoryRouter><Categories loggedIn={false} /></MemoryRouter>);
         expect(wrapper.find(Categories).html()).toBe('');
 
         // Logged in

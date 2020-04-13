@@ -15,7 +15,7 @@ const imgStyle = {
     width: "auto"
 }
 
-class Tracker extends React.Component {
+export class Tracker extends React.Component {
 
     componentDidMount() {
         const { loggedIn } = this.props;

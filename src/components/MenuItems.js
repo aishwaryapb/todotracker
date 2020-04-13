@@ -7,7 +7,7 @@ import { logout } from '../actions/auth';
 
 const items = ['Categories', 'Tracker']
 
-class MenuItems extends React.Component {
+export class MenuItems extends React.Component {
     state = {
         selectedKey: -1
     }
