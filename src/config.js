@@ -4,5 +4,8 @@ export default {
         logoutSuccess: "You have been logged out successfully!",
         errorTitle: "Oops!",
         successTitle: "Success!"
+    },
+    screenWidth: {
+        laptop: 1025
     }
 };
