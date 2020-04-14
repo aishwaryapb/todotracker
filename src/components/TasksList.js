@@ -5,7 +5,7 @@ import DraggableList from './DraggableList';
 import { ListInput, TasksContainer, CategoryName } from '../theme/components';
 import { reorderTasks, updateTasks, deleteTask, addTask, toggleTask } from '../actions/tasks';
 
-class TasksList extends React.Component {
+export class TasksList extends React.Component {
 
     handleAddItem = (e) => {
         const { key, target: { value } } = e;

@@ -1,6 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { ThemeProvider } from 'styled-components';
+
 import { CategoryTiles } from './CategoryTiles';
+import { hexToRGB } from '../utils';
+import { theme } from '../theme';
 
 const props = {
     categories: [
@@ -22,11 +26,14 @@ const props = {
 };
 
 const mountComponent = () => mount(
-    <CategoryTiles
-        categories={props.categories}
-        selectCategory={props.selectCategory}
-        fetchAllTasks={props.fetchAllTasks}
-    />
+    <ThemeProvider theme={theme}>
+        <CategoryTiles
+            categories={props.categories}
+            selectCategory={props.selectCategory}
+            fetchAllTasks={props.fetchAllTasks}
+        />
+    </ThemeProvider>,
+    { theme }
 );
 
 describe('Check Category Tiles Section', () => {
@@ -79,6 +86,7 @@ describe('Check Category Tiles Section', () => {
         const component = wrapper.find(CategoryTiles);
         const tile = component.find('div div').at(0);
         expect(tile.html()).toContain('svg');
+        expect(getComputedStyle(tile.getDOMNode()).getPropertyValue('background-color')).toBe(hexToRGB(theme.green));
     })
 })
 
