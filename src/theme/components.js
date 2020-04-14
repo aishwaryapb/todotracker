@@ -99,7 +99,7 @@ export const Input = styled.input.attrs(props => ({
 `;
 
 export const Right = styled.div`
-    width: 100%;
+    width: ${props => `${props?.width}vw` || '100%'};
     text-align: right;
 `;
 
