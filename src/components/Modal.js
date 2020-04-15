@@ -1,35 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { ModalContent, ModalBody, ModalHeader, Close } from '../theme/components'
-
-const modal = document.querySelector("#modal");
-
-const toggleVisibility = (isVisible) => {
-    isVisible
-        ? modal.style.display = "block"
-        : modal.style.display = "none";
-}
+import { ModalContent, ModalBody, ModalHeader, Close, ModalContainer } from '../theme/components'
 
 const Modal = ({ heading, body, error, visible, onClose }) => {
-    useEffect(() => {
-        toggleVisibility(visible);
-    });
 
-    const closeModal = () => {
-        onClose();
-        toggleVisibility(false);
-    }
-
-    return (
-        <ModalContent>
-            <ModalHeader error={error}>
-                <Close onClick={closeModal}>&times;</Close>
-                <h2>{heading || ''}</h2>
-            </ModalHeader>
-            <ModalBody>
-                <p>{body || ''}</p>
-            </ModalBody>
-        </ModalContent>
+    return visible && (
+        <ModalContainer>
+            <ModalContent>
+                <ModalHeader error={error}>
+                    <Close onClick={() => onClose()}>&times;</Close>
+                    <h2>{heading || ''}</h2>
+                </ModalHeader>
+                <ModalBody>
+                    <p>{body || ''}</p>
+                </ModalBody>
+            </ModalContent>
+        </ModalContainer>
     )
 }
 
