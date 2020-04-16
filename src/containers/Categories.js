@@ -12,7 +12,7 @@ import {
 import { Center, CategoriesContainer, ListInput } from '../theme/components';
 import DraggableList from '../components/DraggableList';
 
-class Categories extends React.Component {
+export class Categories extends React.Component {
 
     componentDidMount() {
         const { loggedIn } = this.props;

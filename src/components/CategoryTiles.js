@@ -10,7 +10,7 @@ const tickStyle = {
     width: '1.6rem'
 };
 
-class CategoryTiles extends React.Component {
+export class CategoryTiles extends React.Component {
     state = {
         selected: undefined
     }

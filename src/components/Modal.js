@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ModalContent, ModalBody, ModalHeader, Close, ModalContainer } from '../theme/components'
 
-const Modal = ({ heading, body, error, visible, onClose }) => {
+export const Modal = ({ heading, body, error, visible, onClose }) => {
 
     return visible && (
         <ModalContainer>

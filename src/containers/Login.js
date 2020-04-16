@@ -10,7 +10,7 @@ const linkStyle = {
     marginRight: "2vw"
 };
 
-class Login extends React.Component {
+export class Login extends React.Component {
     state = {
         email: '',
         password: '',
@@ -25,7 +25,7 @@ class Login extends React.Component {
 
     render() {
         const { loggingIn, loggedIn, location } = this.props;
-        const returnTo = location.state?.returnTo ?? '/categories';
+        const returnTo = location?.state?.returnTo ?? '/categories';
         const { isCreate } = this.state;
         return (
             <LoginContainer>

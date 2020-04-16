@@ -11,7 +11,7 @@ const fitContent = {
     cursor: "default"
 };
 
-class DraggableList extends React.Component {
+export class DraggableList extends React.Component {
 
     isDeleting = false;
 
