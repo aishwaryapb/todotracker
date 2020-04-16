@@ -8,14 +8,14 @@ jobs:
 
       - restore_cache:
           keys: 
-            - v1-repo-{{ checksum "package-lock.json" }}
+            - v1-repo-{{ checksum "package.json" }}
 
       - run:
           name: Install dependencies with NPM
           command: npm install
 
       - save_cache:
-          key: v1-repo-{{ checksum "package-lock.json" }}
+          key: v1-repo-{{ checksum "package.json" }}
           paths:
             - "node_modules"
 
@@ -25,7 +25,7 @@ jobs:
           
       - run:
           name: Build
-          command: npm build
+          command: npm run build
       
       - run:
           name: Deploy
