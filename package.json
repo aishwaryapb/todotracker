@@ -20,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "netlify deploy --dir=./build -p"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2"
+    "enzyme-adapter-react-16": "^1.15.2",
+    "netlify-cli": "^2.46.0"
   }
 }
