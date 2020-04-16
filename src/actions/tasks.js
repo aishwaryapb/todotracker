@@ -1,7 +1,7 @@
 import { batch } from 'react-redux';
 
 import { db } from '../firebase';
-import { setLoading, setError } from '.';
+import { setLoading, setError, setBtnLoading } from '.';
 import { toggleCategoryCompletion } from './categories';
 
 const fetchTasks = (categoryId, user) => {
@@ -135,6 +135,7 @@ export const addTask = (name) => (dispatch, getState) => {
 }
 
 export const toggleTask = (tasks, task) => async dispatch => {
+    dispatch(setBtnLoading(true));
     db.collection("tasks")
         .doc(task.id)
         .update({ ...task, completed: !task.completed })
@@ -145,6 +146,7 @@ export const toggleTask = (tasks, task) => async dispatch => {
                     payload: task
                 });
                 dispatch(toggleCategoryCompletion());
+                dispatch(setBtnLoading(false));
             })
         })
 }

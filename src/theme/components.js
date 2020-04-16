@@ -139,7 +139,22 @@ export const DragContainer = styled.ul`
     padding: 0;
 `;
 
+const slide = keyframes`
+	0% {
+        transform: translateX(-5%);
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+	100% {
+        transform:translateX(100%);
+        opacity: 0.1;
+    }
+`;
+
 export const DragList = styled.li`
+    position: relative;
     background-color: ${props => props.toggled ? props.theme.green : 'white'};
     color: ${props => props.toggled ? 'white' : 'black'};
     padding: 1vh 1vw;
@@ -148,6 +163,18 @@ export const DragList = styled.li`
     margin-bottom: 2vh;
     min-height: 5vh;
     width: ${props => props.width ? (props.width + "vw") : "auto"};
+
+    &:after {
+        display: ${props => props.isLoading ? 'block' : 'none'};
+        content:'';
+        top:0;
+        transform:translateX(-5%);
+        width: 50%;
+        height: 100%;
+        position: absolute;
+        animation: ${slide} 1s infinite;
+        background: ${props => props.toggled ? 'white' : props.theme.green};
+    }
 `;
 
 export const DraggableItem = styled.div`

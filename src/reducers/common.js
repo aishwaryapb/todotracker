@@ -1,5 +1,6 @@
 const initialState = {
-    loading: false
+    loading: false,
+    btnLoading: false
 };
 
 export default (state = initialState, action) => {
@@ -10,6 +11,8 @@ export default (state = initialState, action) => {
             return { ...state, error: action.payload };
         case "SET_SUCCESS":
             return { ...state, success: action.payload };
+        case "SET_BTN_LOADING":
+            return { ...state, btnLoading: action.payload };
         default:
             return state;
     }

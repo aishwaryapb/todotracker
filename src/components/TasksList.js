@@ -17,7 +17,7 @@ export class TasksList extends React.Component {
     }
 
     render() {
-        const { allTasks, toggleTask, reorderTasks, updateTasks, deleteTask, selectedCategory } = this.props;
+        const { allTasks, toggleTask, reorderTasks, updateTasks, deleteTask, selectedCategory, loading } = this.props;
         const tasks = allTasks[selectedCategory?.id];
         return (
             <TasksContainer isCompleted={selectedCategory?.completed}>
@@ -30,6 +30,7 @@ export class TasksList extends React.Component {
                     reorder={reorderTasks}
                     update={updateTasks}
                     delete={deleteTask}
+                    loading={loading}
                 />
                 <ListInput type="text" placeholder="Add Task" onKeyUp={this.handleAddItem} width="60" />
             </TasksContainer>
@@ -37,10 +38,11 @@ export class TasksList extends React.Component {
     }
 }
 
-const mapStateToProps = ({ tasks }) => {
+const mapStateToProps = ({ tasks, common }) => {
     return {
         allTasks: tasks.data,
-        selectedCategory: tasks.selectedCategory
+        selectedCategory: tasks.selectedCategory,
+        loading: common.btnLoading
     }
 }
 

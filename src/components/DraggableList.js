@@ -14,6 +14,7 @@ const fitContent = {
 export class DraggableList extends React.Component {
 
     isDeleting = false;
+    itemToggled = undefined;
 
     handleDelete = (itemId) => {
         this.isDeleting = true;
@@ -47,7 +48,7 @@ export class DraggableList extends React.Component {
     onDragEnd = () => this.props.reorder(this.props.items);
 
     render() {
-        const { toggleItem, items, type, width } = this.props;
+        const { toggleItem, items, type, width, loading } = this.props;
         return (
             items?.length > 0 &&
             <DragContainer type={type}>
@@ -57,13 +58,16 @@ export class DraggableList extends React.Component {
                             ? {
                                 onClick: () => {
                                     if (this.isDeleting) this.isDeleting = false
-                                    else toggleItem(items, item)
+                                    else {
+                                        toggleItem(items, item)
+                                        this.itemToggled = idx;
+                                    }
                                 },
                                 toggled: item.completed
                             }
                             : {};
                         return (
-                            <DragList key={idx} onDragOver={() => this.onDragOver(idx)} width={width} {...extraProps}>
+                            <DragList key={idx} onDragOver={() => this.onDragOver(idx)} width={width} isLoading={this.itemToggled === idx && loading} {...extraProps}>
                                 <DraggableItem
                                     draggable
                                     onDragStart={e => this.onDragStart(e, idx)}

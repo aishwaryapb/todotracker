@@ -5,6 +5,13 @@ export const setLoading = (loading) => {
     }
 }
 
+export const setBtnLoading = (loading) => {
+    return {
+        type: "SET_BTN_LOADING",
+        payload: loading
+    }
+}
+
 export const setError = (error) => {
     return {
         type: "SET_ERROR",
