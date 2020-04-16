@@ -47,23 +47,28 @@ const mountComponent = (category) =>
     )
 
 describe('Check Tasks List Section', () => {
+
+    let wrapper;
+
+    afterEach(() => wrapper?.exists() && wrapper.unmount())
+
     it('Check if container turns green when category is completed', () => {
         const category = { ...props.selectedCategory, completed: true };
-        const wrapper = mountComponent(category);
+        wrapper = mountComponent(category);
         const component = wrapper.find(TasksList);
         const container = component.find("div").at(0);
         expect(getComputedStyle(container.getDOMNode()).getPropertyValue('background-color')).toBe(hexToRGB(theme.green));
-    });
+    })
 
     it('Check if the category name is displayed correctly', () => {
-        const wrapper = mountComponent();
+        wrapper = mountComponent();
         const component = wrapper.find(TasksList);
         const categoryName = component.find('div div').at(0);
         expect(categoryName.text()).toBe(props.selectedCategory.name);
-    });
+    })
 
     it('Check add task', () => {
-        const wrapper = mountComponent();
+        wrapper = mountComponent();
         const input = wrapper.find(TasksList).find('input');
         input.instance().value = props.newTask;
         input.props().onKeyUp({
@@ -75,6 +80,6 @@ describe('Check Tasks List Section', () => {
         input.simulate('keyUp');
         expect(input.instance().value).toBe(props.newTask);
         expect(props.addTask).toHaveBeenCalledTimes(1);
-    });
+    })
 })
 

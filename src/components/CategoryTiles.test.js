@@ -37,8 +37,13 @@ const mountComponent = () => mount(
 );
 
 describe('Check Category Tiles Section', () => {
+
+    let wrapper;
+
+    afterEach(() => wrapper?.exists() && wrapper.unmount())
+
     it('Check if tasks are loaded on mount/update only when no category is selected', () => {
-        const wrapper = mountComponent();
+        wrapper = mountComponent();
 
         // Mount
         expect(props.selectCategory).toHaveBeenCalledTimes(1);
@@ -53,10 +58,10 @@ describe('Check Category Tiles Section', () => {
         wrapper.find(CategoryTiles).setState({ selected: '1' });
         expect(props.selectCategory).toHaveBeenCalledTimes(2);
         expect(props.fetchAllTasks).toHaveBeenCalledTimes(2);
-    });
+    })
 
     it('Check if category is selected on click of the tile', () => {
-        const wrapper = mountComponent();
+        wrapper = mountComponent();
         const component = wrapper.find(CategoryTiles);
         const tile = component.find('div div').at(2);
 
@@ -69,20 +74,20 @@ describe('Check Category Tiles Section', () => {
         expect(component.state('selected')).toBe(props.categories[1].id);
         expect(props.selectCategory).toHaveBeenCalledTimes(4);
         expect(getComputedStyle(tile.getDOMNode()).getPropertyValue('margin')).toBe('0px');
-    });
+    })
 
     it('Check if correct number of connectors are displayed', () => {
-        const wrapper = mountComponent();
+        wrapper = mountComponent();
         const component = wrapper.find(CategoryTiles);
         let connectors = [];
         component.find('div div').forEach((node, index) => {
             if (index % 2 !== 0) connectors.push(node);
         })
         expect(connectors).toHaveLength(1);
-    });
+    })
 
     it('Check if tick is displayed on category completion', () => {
-        const wrapper = mountComponent();
+        wrapper = mountComponent();
         const component = wrapper.find(CategoryTiles);
         const tile = component.find('div div').at(0);
         expect(tile.html()).toContain('svg');

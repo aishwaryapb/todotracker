@@ -8,39 +8,38 @@ const props = {
     location: { pathname: '/categories' }
 }
 
+const mountComponent = () => mount(
+    <MemoryRouter>
+        <MenuItems location={props.location} logout={props.logout} />
+    </MemoryRouter>
+);
+
 describe('Check navigation menu', () => {
+
+    let wrapper;
+
+    afterEach(() => wrapper?.exists() && wrapper.unmount())
+
     it('Check initial menu item selection', () => {
-        const wrapper = mount(
-            <MemoryRouter>
-                <MenuItems location={props.location} />
-            </MemoryRouter>
-        );
+        wrapper = mountComponent();
         const link = wrapper.find(MenuItems).find(`a[href="${props.location.pathname}"]`);
         expect(getComputedStyle(link.getDOMNode()).getPropertyValue('font-weight')).toBe('bold');
-    });
+    })
 
     it('Check navigation', () => {
-        const wrapper = mount(
-            <MemoryRouter>
-                <MenuItems location={props.location} />
-            </MemoryRouter>
-        );
+        wrapper = mountComponent();
         const linkIndex = 1;
         const link = wrapper.find(MenuItems).find('a').at(linkIndex);
 
         link.simulate('click');
         expect(wrapper.find(MenuItems).state('selectedKey')).toBe(linkIndex);
-    });
+    })
 
     it('Check logout', () => {
-        const wrapper = mount(
-            <MemoryRouter>
-                <MenuItems location={props.location} logout={props.logout} />
-            </MemoryRouter>
-        );
+        wrapper = mountComponent();
         const button = wrapper.find(MenuItems).find('button');
 
         button.simulate('click');
         expect(props.logout).toHaveBeenCalledTimes(1);
-    });
-});
+    })
+})

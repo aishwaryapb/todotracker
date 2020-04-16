@@ -45,7 +45,7 @@ const mountComponent = (isTasksList = false, items = props.items) => mount(
 describe('Check Draggable List', () => {
     let wrapper;
 
-    afterEach(() => wrapper.unmount())
+    afterEach(() => wrapper?.exists() && wrapper.unmount())
 
     it('Check if displayed only if items are there', () => {
         wrapper = mountComponent(false, []);

@@ -27,9 +27,7 @@ const mountComponent = (visible, error) => mount(
 describe('Check Modal', () => {
     let wrapper;
 
-    afterEach(() => {
-        wrapper.unmount();
-    })
+    afterEach(() => wrapper?.exists() && wrapper.unmount())
 
     it('Check modal visibility', () => {
         // When visible is false
@@ -42,7 +40,7 @@ describe('Check Modal', () => {
         wrapper = mountComponent(true, false);
         component = wrapper.find(Modal);
         expect(component.html()).not.toBe(null);
-    });
+    })
 
     it('Check modal contents', () => {
         wrapper = mountComponent(true, false);
@@ -52,7 +50,7 @@ describe('Check Modal', () => {
 
         expect(heading.text()).toBe(props.heading);
         expect(body.text()).toBe(props.body);
-    });
+    })
 
     it('Check modal style based on type', () => {
         // When error is false
@@ -67,7 +65,7 @@ describe('Check Modal', () => {
         component = wrapper.find(Modal);
         headerContainer = component.find('div div div').at(0);
         expect(getComputedStyle(headerContainer.getDOMNode()).getPropertyValue('background-color')).toBe(hexToRGB(theme.red));
-    });
+    })
 
     it('Check modal close', () => {
         wrapper = mountComponent(true, false);
@@ -75,5 +73,5 @@ describe('Check Modal', () => {
         const close = component.find('span');
         close.simulate('click');
         expect(props.onClose).toHaveBeenCalledTimes(1);
-    });
-});
+    })
+})

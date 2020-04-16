@@ -21,23 +21,28 @@ const setEmailAndPassword = (wrapper) => {
     setInput(password, 'password', props.password);
 }
 
-const checkEmailAndPassword = () => {
-    const wrapper = mount(<Login />);
-    setEmailAndPassword(wrapper);
-
-    const email = wrapper.find('input[type="text"]');
-    const password = wrapper.find('input[type="password"]');
-
-    expect(email.props().value).toBe(props.email);
-    expect(password.props().value).toBe(props.password);
-}
+const mountComponent = () => mount(<Login login={props.login} signUp={props.signUp} />);
 
 describe('Check Login Component', () => {
 
-    it('Check email and password inputs', checkEmailAndPassword)
+    let wrapper;
+
+    afterEach(() => wrapper?.exists() && wrapper.unmount())
+
+    it('Check email and password inputs', () => {
+        wrapper = mountComponent();
+        setEmailAndPassword(wrapper);
+
+        const email = wrapper.find('input[type="text"]');
+        const password = wrapper.find('input[type="password"]');
+
+        expect(email.props().value).toBe(props.email);
+        expect(password.props().value).toBe(props.password);
+
+    })
 
     it('Check login', () => {
-        const wrapper = mount(<Login login={props.login} />);
+        wrapper = mountComponent();
         setEmailAndPassword(wrapper);
         const button = wrapper.find('button');
         button.simulate('click');
@@ -45,7 +50,7 @@ describe('Check Login Component', () => {
     })
 
     it('Check sign up', () => {
-        const wrapper = mount(<Login signUp={props.signUp} />);
+        wrapper = mountComponent();
         const link = wrapper.find('span');
         link.simulate('click');
         const button = wrapper.find('button');
