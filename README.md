@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/6a78b56d-cfad-4303-9c1c-b78d080b11df/deploy-status)](https://app.netlify.com/sites/to-do-tracker/deploys)
+[![CircleCI](https://circleci.com/gh/aishwaryapb/todotracker.svg?style=svg)](https://circleci.com/gh/aishwaryapb/todotracker)
 
 # To Do Tracker
 
