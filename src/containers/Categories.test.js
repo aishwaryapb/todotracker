@@ -6,7 +6,9 @@ import { MemoryRouter } from 'react-router-dom';
 const props = {
     fetchCategories: jest.fn(),
     addCategory: jest.fn(),
-    testCategory: 'Test'
+    testCategory: 'Test',
+    selectCategory: jest.fn(),
+    fetchAllTasks: jest.fn()
 }
 
 const mountComponent = (loggedIn = true) => mount(
@@ -15,6 +17,8 @@ const mountComponent = (loggedIn = true) => mount(
             loggedIn={loggedIn}
             fetchCategories={props.fetchCategories}
             addCategory={props.addCategory}
+            selectCategory={props.selectCategory}
+            fetchAllTasks={props.fetchAllTasks}
         />
     </MemoryRouter>
 )
@@ -60,5 +64,12 @@ describe('Check Categories Page', () => {
         input.simulate('keyUp');
         expect(input.instance().value).toBe(props.testCategory);
         expect(props.addCategory).toHaveBeenCalledTimes(1);
+    })
+
+    it('Check handle select of category', () => {
+        wrapper = mountComponent();
+        wrapper.find(Categories).instance().handleSelect();
+        expect(props.selectCategory).toHaveBeenCalledTimes(1);
+        expect(props.fetchAllTasks).toHaveBeenCalledTimes(1);
     })
 })

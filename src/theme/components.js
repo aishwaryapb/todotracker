@@ -175,6 +175,10 @@ export const DragList = styled.li`
         animation: ${slide} 1s infinite;
         background: ${props => props.toggled ? 'white' : props.theme.green};
     }
+
+    &:hover {
+        border-bottom: ${props => props.isSelectable ? `4px solid ${props.theme.yellow}` : ''};
+    }
 `;
 
 export const DraggableItem = styled.div`

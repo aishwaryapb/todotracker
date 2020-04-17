@@ -8,13 +8,9 @@ import { logout } from '../actions/auth';
 const items = ['Categories', 'Tracker']
 
 export class MenuItems extends React.Component {
-    state = {
-        selectedKey: -1
-    }
 
     render() {
         const { location } = this.props;
-        const { selectedKey } = this.state;
         // @todo add tasks percent complete
         return (
             <React.Fragment>
@@ -25,8 +21,7 @@ export class MenuItems extends React.Component {
                             <MenuItem
                                 key={index}
                                 path={pathname}
-                                selected={location.pathname === pathname || selectedKey === index}
-                                onClick={() => this.setState({ selectedKey: index })}
+                                selected={location.pathname === pathname}
                             >
                                 {item}
                             </MenuItem>

@@ -26,15 +26,6 @@ describe('Check navigation menu', () => {
         expect(getComputedStyle(link.getDOMNode()).getPropertyValue('font-weight')).toBe('bold');
     })
 
-    it('Check navigation', () => {
-        wrapper = mountComponent();
-        const linkIndex = 1;
-        const link = wrapper.find(MenuItems).find('a').at(linkIndex);
-
-        link.simulate('click');
-        expect(wrapper.find(MenuItems).state('selectedKey')).toBe(linkIndex);
-    })
-
     it('Check logout', () => {
         wrapper = mountComponent();
         const button = wrapper.find(MenuItems).find('button');

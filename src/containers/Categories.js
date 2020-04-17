@@ -9,14 +9,22 @@ import {
     updateCategories,
     deleteCategory
 } from '../actions/categories';
+import { selectCategory, fetchAllTasks } from '../actions/tasks';
 import { Center, CategoriesContainer, ListInput } from '../theme/components';
 import DraggableList from '../components/DraggableList';
+import history from '../history';
 
 export class Categories extends React.Component {
 
     componentDidMount() {
         const { loggedIn } = this.props;
         if (loggedIn) this.props.fetchCategories();
+    }
+
+    handleSelect = (category) => {
+        this.props.selectCategory(category);
+        this.props.fetchAllTasks();
+        history.push('/tracker');
     }
 
     handleAddItem = (e) => {
@@ -42,6 +50,7 @@ export class Categories extends React.Component {
                             reorder={this.props.reorderCategories}
                             update={this.props.updateCategories}
                             delete={this.props.deleteCategory}
+                            select={this.handleSelect}
                         />
                         <ListInput type="text" placeholder="Add category" onKeyUp={this.handleAddItem} width="96" />
                     </CategoriesContainer>
@@ -64,6 +73,8 @@ export default connect(
         reorderCategories,
         addCategory,
         updateCategories,
-        deleteCategory
+        deleteCategory,
+        selectCategory,
+        fetchAllTasks
     }
 )(Categories);

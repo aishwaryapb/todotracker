@@ -19,6 +19,7 @@ Then you've reached the right place. [Try out the app](https://to-do-tracker.net
 ## Takeaway for new ReactJS Developers
 
  - **No CSS Framework** used. Loads of **re-usable styled JSX** components. Have a look at them and feel free to use.
+ - Resuable **DnD** list without node module.
  - **Theming** and **keyframe animations** using styled components.
  - **Modals** using **portals** in React.
  - **Redux** for state management.

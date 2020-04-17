@@ -7,8 +7,7 @@ import { DragContainer, DragList, DraggableItem, Right } from '../theme/componen
 
 const fitContent = {
     textAlign: 'justify',
-    minWidth: "80%",
-    cursor: "default"
+    minWidth: "80%"
 };
 
 export class DraggableList extends React.Component {
@@ -48,7 +47,8 @@ export class DraggableList extends React.Component {
     onDragEnd = () => this.props.reorder(this.props.items);
 
     render() {
-        const { toggleItem, items, type, width, loading } = this.props;
+        const { toggleItem, items, type, width, loading, select } = this.props;
+        const isSelectable = select !== undefined;
         return (
             items?.length > 0 &&
             <DragContainer type={type}>
@@ -65,9 +65,23 @@ export class DraggableList extends React.Component {
                                 },
                                 toggled: item.completed
                             }
-                            : {};
+                            : isSelectable
+                                ? {
+                                    onClick: () => {
+                                        if (this.isDeleting) this.isDeleting = false
+                                        else select(item)
+                                    }
+                                }
+                                : {};
                         return (
-                            <DragList key={idx} onDragOver={() => this.onDragOver(idx)} width={width} isLoading={this.itemToggled === idx && loading} {...extraProps}>
+                            <DragList
+                                key={idx}
+                                onDragOver={() => this.onDragOver(idx)}
+                                width={width}
+                                isLoading={this.itemToggled === idx && loading}
+                                {...extraProps}
+                                isSelectable={isSelectable}
+                            >
                                 <DraggableItem
                                     draggable
                                     onDragStart={e => this.onDragStart(e, idx)}
@@ -75,7 +89,7 @@ export class DraggableList extends React.Component {
                                 >
                                     {item.completed === true ? <Tick className="move" /> : <Hamburger className="hamburger move" />}
                                 </DraggableItem>
-                                <div style={fitContent}>{item.name}</div>
+                                <div style={fitContent} className="pointer">{item.name}</div>
                                 {(item.completed !== true || !item.categoryId) && <Right width={42}><Delete className="delete pointer" onClick={() => this.handleDelete(item)} /></Right>}
                             </DragList>
                         )

@@ -26,7 +26,8 @@ const props = {
     reorder: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
-    toggleItem: jest.fn()
+    toggleItem: jest.fn(),
+    select: jest.fn()
 }
 
 const mountComponent = (isTasksList = false, items = props.items) => mount(
@@ -38,6 +39,7 @@ const mountComponent = (isTasksList = false, items = props.items) => mount(
             update={props.update}
             delete={props.delete}
             toggleItem={isTasksList ? props.toggleItem : undefined}
+            select={isTasksList ? undefined : props.select}
         />
     </ThemeProvider>
 )
@@ -122,5 +124,13 @@ describe('Check Draggable List', () => {
         expect(getComputedStyle(listItem.getDOMNode()).getPropertyValue('background-color')).toBe(hexToRGB(theme.green));
         expect(hamburgerIcon).toHaveLength(0);
         expect(deleteIcon).toHaveLength(0);
+    })
+
+    it('Check item selection', () => {
+        wrapper = mountComponent();
+        const component = wrapper.find(DraggableList);
+        const listItem = component.find('li').at(0);
+        listItem.props().onClick();
+        expect(props.select).toHaveBeenCalledTimes(1);
     })
 })

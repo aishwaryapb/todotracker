@@ -26,14 +26,19 @@ const props = {
 };
 
 const mountComponent = () => mount(
-    <ThemeProvider theme={theme}>
-        <CategoryTiles
-            categories={props.categories}
-            selectCategory={props.selectCategory}
-            fetchAllTasks={props.fetchAllTasks}
-        />
-    </ThemeProvider>,
-    { theme }
+    React.createElement(
+        eProps => (
+            <ThemeProvider theme={theme}>
+                <CategoryTiles
+                    categories={props.categories}
+                    selectCategory={props.selectCategory}
+                    fetchAllTasks={props.fetchAllTasks}
+                    {...eProps}
+                />
+            </ThemeProvider>
+        ),
+        { theme }
+    )
 );
 
 describe('Check Category Tiles Section', () => {
@@ -50,12 +55,12 @@ describe('Check Category Tiles Section', () => {
         expect(props.fetchAllTasks).toHaveBeenCalledTimes(1);
 
         // state.selected is undefined
-        wrapper.find(CategoryTiles).setState({ selected: undefined });
+        wrapper.setProps({ selected: undefined });
         expect(props.selectCategory).toHaveBeenCalledTimes(2);
         expect(props.fetchAllTasks).toHaveBeenCalledTimes(2);
 
         // state.selected is defined
-        wrapper.find(CategoryTiles).setState({ selected: '1' });
+        wrapper.setProps({ selected: '1' });
         expect(props.selectCategory).toHaveBeenCalledTimes(2);
         expect(props.fetchAllTasks).toHaveBeenCalledTimes(2);
     })
@@ -69,9 +74,9 @@ describe('Check Category Tiles Section', () => {
         expect(getComputedStyle(tile.getDOMNode()).getPropertyValue('margin')).toBe('auto');
 
         tile.props().onClick(props.categories[1]);
+        wrapper.setProps({ selected: props.categories[1] })
 
         // Tile clicked
-        expect(component.state('selected')).toBe(props.categories[1].id);
         expect(props.selectCategory).toHaveBeenCalledTimes(4);
         expect(getComputedStyle(tile.getDOMNode()).getPropertyValue('margin')).toBe('0px');
     })

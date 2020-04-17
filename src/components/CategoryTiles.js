@@ -11,22 +11,16 @@ const tickStyle = {
 };
 
 export class CategoryTiles extends React.Component {
-    state = {
-        selected: undefined
-    }
 
     handleSelect = (category) => {
-        this.setState({ selected: category.id });
         this.props.selectCategory(category);
     }
 
     loadTasks() {
-        const { categories } = this.props;
-        const { selected } = this.state;
+        const { categories, selected } = this.props;
         if (selected === undefined && categories?.length > 0) {
             this.props.fetchAllTasks();
             this.props.selectCategory(categories[0]);
-            this.setState({ selected: categories[0].id });
         }
     }
 
@@ -39,15 +33,14 @@ export class CategoryTiles extends React.Component {
     }
 
     render() {
-        const { categories } = this.props;
-        const { selected } = this.state;
+        const { categories, selected } = this.props;
         return (
             <Center>
                 {
                     categories?.map((category, index) => {
                         return (
                             <React.Fragment key={index}>
-                                <Tile isCompleted={category.completed} isSelected={selected === category.id || (selected === undefined && index === 0)} onClick={() => this.handleSelect(category)}>
+                                <Tile isCompleted={category.completed} isSelected={selected?.id === category.id || (selected === undefined && index === 0)} onClick={() => this.handleSelect(category)}>
                                     {category.completed ? <Tick style={tickStyle} /> : (index + 1)}
                                 </Tile>
                                 {(index !== categories.length - 1) && <Connector />}
@@ -60,9 +53,10 @@ export class CategoryTiles extends React.Component {
     }
 }
 
-const mapStateToProps = ({ categories }) => {
+const mapStateToProps = ({ categories, tasks }) => {
     return {
-        categories
+        categories,
+        selected: tasks.selectedCategory
     }
 }
 
