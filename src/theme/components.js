@@ -1,6 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import breakpoints from './breakpoints';
+
 export const Container = styled.div`
     width: 100vw;
     height: 100vh;
@@ -24,6 +26,10 @@ export const Logo = styled.img.attrs(props => ({
     height: ${props => props.theme.navBarHeight - 1}vh;
     width: auto;
     padding: 0.5vh 2vw;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        height: 8vh;
+    }
 `;
 
 export const Menu = styled.div`
@@ -31,6 +37,11 @@ export const Menu = styled.div`
     text-align: right;
     width: 100%;
     padding: ${props => props.theme.navBarHeight / 4}vh 2vw;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        padding-top: 2vh;
+    }
+
 `;
 
 export const MenuItem = styled(Link).attrs(props => ({
@@ -63,6 +74,14 @@ export const Button = styled.button.attrs(props => ({
         outline: 3px solid white;
         cursor: pointer;
     }
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        min-width: 15vw;
+    }
+
+    @media ${breakpoints.iPadPro} {
+        font-size: ${props => props.theme.medium}px;
+    }
 `;
 
 export const LoginContainer = styled.div`
@@ -71,6 +90,10 @@ export const LoginContainer = styled.div`
     flex-direction: column;
     padding: 10vh 30vw;
     text-align: center;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        padding: 10vh 15vw;
+    }
 `;
 
 export const Input = styled.input.attrs(props => ({
@@ -95,6 +118,14 @@ export const Input = styled.input.attrs(props => ({
     &:focus {
         outline: none;
         border: 1px solid ${props => props.theme.primaryColor};
+    }
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        width: 97%;
+    }
+
+    @media ${breakpoints.iPadPro} {
+        font-size: ${props => props.theme.large}px;
     }
 `;
 
@@ -164,6 +195,10 @@ export const DragList = styled.li`
     min-height: 5vh;
     width: ${props => props.width ? (props.width + "vw") : "auto"};
 
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        padding: 1vh 1.5vw;
+    }
+
     &:after {
         display: ${props => props.isLoading ? 'block' : 'none'};
         content:'';
@@ -179,6 +214,7 @@ export const DragList = styled.li`
     &:hover {
         border-bottom: ${props => props.isSelectable ? `4px solid ${props.theme.yellow}` : ''};
     }
+
 `;
 
 export const DraggableItem = styled.div`
@@ -186,10 +222,24 @@ export const DraggableItem = styled.div`
     font-size: ${props => props.theme.medium}px;
 `;
 
+export const ItemContent = styled.div`
+    text-align: justify;
+    min-width: 80%;
+    font-size: 16px;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        font-size: ${props => props.theme.medium}px;
+    }
+`;
+
 export const CategoriesContainer = styled.div`
     margin: 5vh auto;
     width: 50vw;
     padding: 5vh 5vw;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        width: 60vw;
+    }
 `;
 
 export const ListInput = styled.input.attrs(props => ({
@@ -203,6 +253,10 @@ export const ListInput = styled.input.attrs(props => ({
     min-height: 5vh;
     padding: 1vh 1vw;
     font-size: ${props => props.theme.xSmall}px;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        font-size: ${props => props.theme.medium}px;
+    }
 `;
 
 export const TrackerContainer = styled.div`
