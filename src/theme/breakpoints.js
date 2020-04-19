@@ -8,15 +8,20 @@ const dimensions = {
     desktop: '2560px'
 }
 
-let breakpoints = {};
+let minBreakpoints = {};
 
-Object.keys(dimensions).forEach(device => breakpoints[device] = `(max-width: ${dimensions[device]})`)
-breakpoints = {
-    ...breakpoints,
+let maxBreakpoints = {};
+
+Object.keys(dimensions).forEach(device => minBreakpoints[device] = `(min-width: ${dimensions[device]})`)
+Object.keys(dimensions).forEach(device => maxBreakpoints[device] = `(max-width: ${dimensions[device]})`)
+
+export const mxb = {
+    ...maxBreakpoints,
     iPadPro: `only screen 
     and (min-device-width: 1024px) 
     and (max-device-width: 1366px) 
     and (-webkit-min-device-pixel-ratio: 2)`
 }
 
-export default breakpoints;
+export const mib = minBreakpoints;
+
