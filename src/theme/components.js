@@ -197,6 +197,8 @@ export const DragList = styled.li`
 
     @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
         padding: 1vh 1.5vw;
+        width: ${props => props.width ? "52vw" : "auto"};
+        min-height: 3vh;
     }
 
     &:after {
@@ -256,6 +258,8 @@ export const ListInput = styled.input.attrs(props => ({
 
     @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
         font-size: ${props => props.theme.medium}px;
+        width: ${props => props.width < 75 ? '53vw' : `${parseInt(props.width) + 1}%`};
+        min-height: 3vh;
     }
 `;
 
@@ -267,6 +271,10 @@ export const TrackerContainer = styled.div`
     margin: auto;
     margin-top: 6vh;
     overflow-y: auto;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        width: 95vw;
+    }
 `;
 
 export const CategoriesTracker = styled.div`
@@ -287,6 +295,10 @@ export const TasksContainer = styled.div`
     text-align: center;
     padding: 3vh 0;
     overflow-y: auto;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        width: 75vw;
+    }
 `;
 
 export const Tile = styled.div`
@@ -342,6 +354,10 @@ export const ModalContainer = styled.div`
     overflow: hidden;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.8);
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        padding-top: 300px;
+    }
 `;
 
 export const ModalContent = styled.div`
@@ -353,6 +369,10 @@ export const ModalContent = styled.div`
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     animation: ${slideDown} 0.5s ease-in-out;    
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        width: 60%
+    }
 `;
 
 export const ModalHeader = styled.div`
@@ -365,6 +385,10 @@ export const ModalHeader = styled.div`
 export const ModalBody = styled.div`
     padding: 5vh 5vw;
     text-align: center;
+
+    @media ${breakpoints.tablet}, ${breakpoints.iPadPro} { 
+        font-size: ${props => props.theme.medium}px;
+    }
 `;
 
 export const Close = styled.span`
