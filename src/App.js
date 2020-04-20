@@ -4,15 +4,14 @@ import { ThemeProvider } from 'styled-components';
 import { connect } from 'react-redux';
 
 import { theme } from './theme';
-import { Container, NavBar, Logo, Menu } from './theme/components';
-import logo from './assets/images/logo.PNG';
+import { Container } from './theme/components';
 import history from './history';
-import MenuItems from './components/MenuItems';
 import Login from './containers/Login';
 import Categories from './containers/Categories';
 import Tracker from './containers/Tracker';
 import HorizontalLoader from './components/HorizontalLoader';
 import Modal from './components/Modal';
+import NavigationMenu from './components/NavigationMenu';
 import { setError, setSuccess } from './actions';
 import CONFIG from './config';
 
@@ -44,10 +43,7 @@ class App extends Component {
                     />
                     <Container>
                         <Router history={history}>
-                            <NavBar>
-                                <Logo src={logo} />
-                                {loggedIn && <Menu><MenuItems /></Menu>}
-                            </NavBar>
+                            <NavigationMenu loggedIn={loggedIn} />
                             {loading && <HorizontalLoader />}
                             <Switch>
                                 <Route path="/" exact component={Login} />

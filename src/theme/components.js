@@ -36,6 +36,10 @@ export const NavBar = styled.div`
     height: ${props => props.theme.navBarHeight}vh;
     display: flex;
     flex-direction: row;
+
+    @media ${mxb.mobileL} {
+        height: 8vh;
+    }
 `;
 
 export const Logo = styled.img.attrs(props => ({
@@ -60,6 +64,36 @@ export const Menu = styled.div`
         padding-top: 2vh;
     }
 
+    @media ${mxb.mobileL} {
+        display:none;
+    }
+
+`;
+
+export const MobileMenu = styled.div`
+    display:none;
+    flex-direction: column;
+    padding: 1vh 1vw;
+    background-color: ${props => props.theme.primaryColor};
+    color: white;
+    justify-content: center;
+    align-items: center;
+
+    @media ${mxb.mobileL} {
+        display: flex;
+    }
+`;
+
+export const MobileMenuIcon = styled.div`
+    text-align: right;
+    width: 55%;
+    padding: 3vh;
+    display: none;
+    color: ${props => props.theme.primaryColor};
+    
+    @media ${mxb.mobileL} {
+        display: block;
+    }
 `;
 
 export const MenuItem = styled(Link).attrs(props => ({
@@ -69,7 +103,14 @@ export const MenuItem = styled(Link).attrs(props => ({
     font-weight: ${props => props.selected ? 'bold' : 'normal'};
     text-decoration: none;
     margin: auto 2vw;
-    font-size: ${props => props.theme.large}px
+    font-size: ${props => props.theme.large}px;
+
+    @media ${mxb.mobileL} {
+        color: white;
+        margin: 2vh 0;
+        text-decoration: ${props => props.selected ? 'underline' : 'none'};
+        font-size: ${props => props.theme.small}px;
+    }
 `;
 
 export const Button = styled.button.attrs(props => ({
