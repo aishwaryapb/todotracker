@@ -2,10 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DraggableList from './DraggableList';
-import { ListInput, TasksContainer, CategoryName } from '../theme/components';
+import { ListInput, TasksContainer, CategoryName, Row, Col, Middle } from '../theme/components';
 import { reorderTasks, updateTasks, deleteTask, addTask, toggleTask } from '../actions/tasks';
+import { ReactComponent as Add } from "../assets/icons/add.svg";
 
 export class TasksList extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.newItemRef = React.createRef();
+    }
 
     handleAddItem = (e) => {
         const { key, target: { value } } = e;
@@ -14,6 +20,14 @@ export class TasksList extends React.Component {
             e.target.value = "";
         }
         return;
+    }
+
+    handleAddBtnClick = () => {
+        const { value } = this.newItemRef.current;
+        if (value !== "") {
+            this.props.addTask(value);
+            this.newItemRef.current.value = "";
+        }
     }
 
     render() {
@@ -32,7 +46,13 @@ export class TasksList extends React.Component {
                     delete={deleteTask}
                     loading={loading}
                 />
-                <ListInput type="text" placeholder="Add Task" onKeyUp={this.handleAddItem} width="60" />
+                <Row justify="center">
+                    <ListInput ref={this.newItemRef} type="text" placeholder="Add Task" onKeyUp={this.handleAddItem} width="54" />
+                    <Col lg="6%" m="6%" sm="8vw" bg={"white"}>
+                        <Middle><Add className='pointer add-btn' onClick={this.handleAddBtnClick} /></Middle>
+                    </Col>
+                </Row>
+
             </TasksContainer>
         );
     }

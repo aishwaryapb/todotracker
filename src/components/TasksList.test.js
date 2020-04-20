@@ -81,5 +81,14 @@ describe('Check Tasks List Section', () => {
         expect(input.instance().value).toBe(props.newTask);
         expect(props.addTask).toHaveBeenCalledTimes(1);
     })
+
+    it('Check plus btn', () => {
+        wrapper = mountComponent();
+        const input = wrapper.find(TasksList).find('input');
+        input.instance().value = props.newTask;
+        const plusBtn = wrapper.find('svg[children="add.svg"]');
+        plusBtn.props().onClick();
+        expect(props.addTask).toHaveBeenCalledTimes(2);
+    })
 })
 

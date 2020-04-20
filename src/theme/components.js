@@ -1,6 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import { mib, mxb } from './breakpoints';
+
 export const Container = styled.div`
     width: 100vw;
     height: 100vh;
@@ -11,11 +13,37 @@ export const Container = styled.div`
     flex-direction: column;
 `;
 
+export const Row = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: ${props => props.justify || ''}
+`;
+
+export const Col = styled.div`
+    background-color: ${props => props.bg || ''};
+
+    @media ${mxb.tablet} {
+        width: ${props => props.m || 'auto'}
+    }   
+
+    @media ${mib.laptop}, ${mib.laptopL} {
+        width: ${props => props.lg || 'auto'}
+    }
+
+    @media ${mxb.mobileL} {
+        width: ${props => props.sm || 'auto'}
+    }
+`;
+
 export const NavBar = styled.div`
     background-color: transparent;
     height: ${props => props.theme.navBarHeight}vh;
     display: flex;
     flex-direction: row;
+
+    @media ${mxb.mobileL} {
+        height: 8vh;
+    }
 `;
 
 export const Logo = styled.img.attrs(props => ({
@@ -24,6 +52,10 @@ export const Logo = styled.img.attrs(props => ({
     height: ${props => props.theme.navBarHeight - 1}vh;
     width: auto;
     padding: 0.5vh 2vw;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        height: 8vh;
+    }
 `;
 
 export const Menu = styled.div`
@@ -31,6 +63,41 @@ export const Menu = styled.div`
     text-align: right;
     width: 100%;
     padding: ${props => props.theme.navBarHeight / 4}vh 2vw;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        padding-top: 2vh;
+    }
+
+    @media ${mxb.mobileL} {
+        display:none;
+    }
+
+`;
+
+export const MobileMenu = styled.div`
+    display:none;
+    flex-direction: column;
+    padding: 1vh 1vw;
+    background-color: ${props => props.theme.primaryColor};
+    color: white;
+    justify-content: center;
+    align-items: center;
+
+    @media ${mxb.mobileL} {
+        display: flex;
+    }
+`;
+
+export const MobileMenuIcon = styled.div`
+    text-align: right;
+    width: 55%;
+    padding: 3vh;
+    display: none;
+    color: ${props => props.theme.primaryColor};
+    
+    @media ${mxb.mobileL} {
+        display: block;
+    }
 `;
 
 export const MenuItem = styled(Link).attrs(props => ({
@@ -40,7 +107,19 @@ export const MenuItem = styled(Link).attrs(props => ({
     font-weight: ${props => props.selected ? 'bold' : 'normal'};
     text-decoration: none;
     margin: auto 2vw;
-    font-size: ${props => props.theme.large}px
+    font-size: ${props => props.theme.large}px;
+
+    @media ${mxb.mobileL} {
+        color: white;
+        margin: 2vh 0;
+        text-decoration: ${props => props.selected ? 'underline' : 'none'};
+        font-size: ${props => props.theme.small}px;
+    }
+
+    @media ${mxb.mobileS} {
+        font-size: ${props => props.theme.xSmall}px;
+    }
+
 `;
 
 export const Button = styled.button.attrs(props => ({
@@ -63,6 +142,18 @@ export const Button = styled.button.attrs(props => ({
         outline: 3px solid white;
         cursor: pointer;
     }
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        min-width: 15vw;
+    }
+
+    @media ${mxb.iPadPro} {
+        font-size: ${props => props.theme.medium}px;
+    }
+
+    @media ${mxb.mobileS} {
+        font-size: ${props => props.theme.xSmall}px;
+    }
 `;
 
 export const LoginContainer = styled.div`
@@ -71,6 +162,14 @@ export const LoginContainer = styled.div`
     flex-direction: column;
     padding: 10vh 30vw;
     text-align: center;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        padding: 10vh 15vw;
+    }
+
+    @media ${mxb.mobileL} {
+        padding: 10vh 8vw;
+    }
 `;
 
 export const Input = styled.input.attrs(props => ({
@@ -96,6 +195,19 @@ export const Input = styled.input.attrs(props => ({
         outline: none;
         border: 1px solid ${props => props.theme.primaryColor};
     }
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        width: 97%;
+    }
+
+    @media ${mxb.iPadPro} {
+        font-size: ${props => props.theme.large}px;
+    }
+
+    @media ${mxb.mobileL} {
+        font-size: ${props => props.theme.small}px;
+        padding: 0 2vw;
+    }
 `;
 
 export const Right = styled.div`
@@ -108,6 +220,13 @@ export const Center = styled.div`
     text-align: center;
     overflow-y: ${props => props.overflow?.y || "auto"};
     overflow-x: ${props => props.overflow?.x || "auto"};
+`;
+
+export const Middle = styled.div`
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const spin = keyframes`
@@ -164,6 +283,18 @@ export const DragList = styled.li`
     min-height: 5vh;
     width: ${props => props.width ? (props.width + "vw") : "auto"};
 
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        padding: 1vh 1.5vw;
+        width: ${props => props.width ? "52vw" : "auto"};
+        min-height: 3vh;
+    }
+
+    @media ${mxb.mobileL} { 
+        padding: 0.5vh 2vw;
+        width: ${props => props.width ? "65vw" : "auto"};
+        min-height: 1vh;
+    }
+
     &:after {
         display: ${props => props.isLoading ? 'block' : 'none'};
         content:'';
@@ -179,6 +310,7 @@ export const DragList = styled.li`
     &:hover {
         border-bottom: ${props => props.isSelectable ? `4px solid ${props.theme.yellow}` : ''};
     }
+
 `;
 
 export const DraggableItem = styled.div`
@@ -186,10 +318,40 @@ export const DraggableItem = styled.div`
     font-size: ${props => props.theme.medium}px;
 `;
 
+export const ItemContent = styled.div`
+    text-align: justify;
+    min-width: 80%;
+    font-size: 16px;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        font-size: ${props => props.theme.medium}px;
+    }
+
+    @media ${mxb.mobileL} { 
+        font-size: ${props => props.theme.xSmall}px;
+    }
+
+    @media ${mxb.mobileS} {
+        font-size: 12px;
+    }
+`;
+
 export const CategoriesContainer = styled.div`
     margin: 5vh auto;
     width: 50vw;
     padding: 5vh 5vw;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        width: 60vw;
+    }
+
+    @media ${mxb.mobileL} {
+        width: 85vw;
+    }
+
+    @media ${mxb.mobileS} {
+        width: 90vw;
+    } 
 `;
 
 export const ListInput = styled.input.attrs(props => ({
@@ -203,6 +365,22 @@ export const ListInput = styled.input.attrs(props => ({
     min-height: 5vh;
     padding: 1vh 1vw;
     font-size: ${props => props.theme.xSmall}px;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        font-size: ${props => props.theme.medium}px;
+        width: ${props => props.width < 75 ? '49vw' : `${parseInt(props.width) + 1}%`};
+        min-height: 3vh;
+    }
+
+    @media ${mxb.mobileL} {
+        font-size: ${props => props.theme.xSmall}px;
+        width: ${props => props.width < 75 ? '60vw' : `90%`};
+        min-height: 2vh;
+    }
+
+    @media ${mxb.mobileS} {
+        font-size: 12px;
+    }
 `;
 
 export const TrackerContainer = styled.div`
@@ -213,6 +391,14 @@ export const TrackerContainer = styled.div`
     margin: auto;
     margin-top: 6vh;
     overflow-y: auto;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        width: 95vw;
+    }
+
+    @media ${mxb.mobileL} {
+        width: 100vw;
+    }
 `;
 
 export const CategoriesTracker = styled.div`
@@ -222,6 +408,11 @@ export const CategoriesTracker = styled.div`
     height: auto;
     display: flex;
     flex-direction: column;
+
+    @media ${mxb.mobileL} {
+        width: 15vw;
+        margin-left: 1vh;
+    }
 `;
 
 export const TasksContainer = styled.div`
@@ -233,6 +424,15 @@ export const TasksContainer = styled.div`
     text-align: center;
     padding: 3vh 0;
     overflow-y: auto;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        width: 75vw;
+    }
+
+    @media ${mxb.mobileL} {
+        margin-right: 2px;
+        width: 81vw;
+    }
 `;
 
 export const Tile = styled.div`
@@ -249,6 +449,20 @@ export const Tile = styled.div`
     &:hover {
         cursor: pointer;
     }
+
+    @media ${mxb.mobileL} {
+        width: ${props => props.isSelected ? "100%" : "40px"};
+        font-size: ${props => props.isSelected ? props.theme.large : props.theme.small}px;
+        height: ${props => props.isSelected ? "75px" : "40px"};
+        line-height: ${props => props.isSelected ? "75px" : "40px"};
+    }
+
+    @media ${mxb.mobileS} {
+        width: ${props => props.isSelected ? "100%" : "25px"};
+        font-size: ${props => props.isSelected ? props.theme.small : props.theme.xSmall}px;
+        height: ${props => props.isSelected ? "50px" : "25px"};
+        line-height: ${props => props.isSelected ? "50px" : "25px"};
+    }
 `;
 
 export const Connector = styled.div`
@@ -257,6 +471,11 @@ export const Connector = styled.div`
     width: 4px;
     height: 45px;
     background-color: ${props => props.theme.primaryColor};
+
+    @media ${mxb.mobileL} {
+        height: 30px;
+        width: 2px;
+    }
 `;
 
 export const CategoryName = styled.div`
@@ -264,6 +483,14 @@ export const CategoryName = styled.div`
     margin-bottom: 4vh;
     font-size: ${props => props.theme.large}px;
     font-weight: 800;
+
+    @media ${mxb.mobileL} {
+        font-size: ${props => props.theme.medium}px;
+    }
+
+    @media ${mxb.mobileS} {
+        font-size: ${props => props.theme.small}px;
+    }
 `;
 
 const slideDown = keyframes`
@@ -288,6 +515,18 @@ export const ModalContainer = styled.div`
     overflow: hidden;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.8);
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        padding-top: 300px;
+    }
+
+    @media ${mxb.mobileL} {
+        padding-top: 200px;
+    }
+
+    @media ${mxb.mobileS} {
+        padding-top: 100px;
+    }
 `;
 
 export const ModalContent = styled.div`
@@ -299,6 +538,14 @@ export const ModalContent = styled.div`
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     animation: ${slideDown} 0.5s ease-in-out;    
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        width: 60%;
+    }
+
+    @media ${mxb.mobileL} {
+        width: 80%;
+    }
 `;
 
 export const ModalHeader = styled.div`
@@ -311,6 +558,18 @@ export const ModalHeader = styled.div`
 export const ModalBody = styled.div`
     padding: 5vh 5vw;
     text-align: center;
+
+    @media ${mxb.tablet}, ${mxb.iPadPro} { 
+        font-size: ${props => props.theme.medium}px;
+    }
+
+    @media ${mxb.mobileL} {
+        font-size: ${props => props.theme.small}px;
+    }
+
+    @media ${mxb.mobileS} {
+        font-size: ${props => props.theme.xSmall}px;
+    }
 `;
 
 export const Close = styled.span`

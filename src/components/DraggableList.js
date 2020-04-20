@@ -3,12 +3,7 @@ import React from "react";
 import { ReactComponent as Hamburger } from "../assets/icons/hamburger.svg";
 import { ReactComponent as Delete } from "../assets/icons/trash.svg";
 import { ReactComponent as Tick } from "../assets/icons/tick.svg";
-import { DragContainer, DragList, DraggableItem, Right } from '../theme/components';
-
-const fitContent = {
-    textAlign: 'justify',
-    minWidth: "80%"
-};
+import { DragContainer, DragList, DraggableItem, Right, ItemContent } from '../theme/components';
 
 export class DraggableList extends React.Component {
 
@@ -89,7 +84,7 @@ export class DraggableList extends React.Component {
                                 >
                                     {item.completed === true ? <Tick className="move" /> : <Hamburger className="hamburger move" />}
                                 </DraggableItem>
-                                <div style={fitContent} className="pointer">{item.name}</div>
+                                <ItemContent className="pointer">{item.name}</ItemContent>
                                 {(item.completed !== true || !item.categoryId) && <Right width={42}><Delete className="delete pointer" onClick={() => this.handleDelete(item)} /></Right>}
                             </DragList>
                         )

@@ -72,4 +72,13 @@ describe('Check Categories Page', () => {
         expect(props.selectCategory).toHaveBeenCalledTimes(1);
         expect(props.fetchAllTasks).toHaveBeenCalledTimes(1);
     })
+
+    it('Check plus btn', () => {
+        wrapper = mountComponent()
+        const input = wrapper.find(Categories).find('input');
+        input.instance().value = props.testCategory;
+        const plusBtn = wrapper.find('svg');
+        plusBtn.props().onClick();
+        expect(props.addCategory).toHaveBeenCalledTimes(2);
+    })
 })
