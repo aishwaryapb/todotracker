@@ -6,12 +6,6 @@ import { ListInput, TasksContainer, CategoryName, Row, Col, Middle } from '../th
 import { reorderTasks, updateTasks, deleteTask, addTask, toggleTask } from '../actions/tasks';
 import { ReactComponent as Add } from "../assets/icons/add.svg";
 
-const resized = {
-    height: '1.5rem',
-    width: '1.5rem'
-}
-
-
 export class TasksList extends React.Component {
 
     constructor(props) {
@@ -54,8 +48,8 @@ export class TasksList extends React.Component {
                 />
                 <Row justify="center">
                     <ListInput ref={this.newItemRef} type="text" placeholder="Add Task" onKeyUp={this.handleAddItem} width="54" />
-                    <Col lg="6%" m="6%" bg={"white"}>
-                        <Middle><Add style={resized} className='pointer' onClick={this.handleAddBtnClick} /></Middle>
+                    <Col lg="6%" m="6%" sm="8vw" bg={"white"}>
+                        <Middle><Add className='pointer add-btn' onClick={this.handleAddBtnClick} /></Middle>
                     </Col>
                 </Row>
 

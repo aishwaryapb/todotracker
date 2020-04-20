@@ -15,11 +15,6 @@ import DraggableList from '../components/DraggableList';
 import { ReactComponent as Add } from "../assets/icons/add.svg";
 import history from '../history';
 
-const resized = {
-    height: '1.5rem',
-    width: '1.5rem'
-}
-
 export class Categories extends React.Component {
 
     constructor(props) {
@@ -74,8 +69,8 @@ export class Categories extends React.Component {
                         />
                         <Row>
                             <ListInput ref={this.newItemRef} type="text" placeholder="Add category" onKeyUp={this.handleAddItem} width="96" />
-                            <Col lg="8%" m="10%" bg={"white"}>
-                                <Middle><Add style={resized} className='pointer' onClick={this.handleAddBtnClick} /></Middle>
+                            <Col lg="8%" m="10%" sm="10%" bg={"white"}>
+                                <Middle><Add className='pointer add-btn' onClick={this.handleAddBtnClick} /></Middle>
                             </Col>
                         </Row>
                     </CategoriesContainer>

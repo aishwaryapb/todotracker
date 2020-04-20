@@ -5,11 +5,6 @@ import { selectCategory, fetchAllTasks } from '../actions/tasks';
 import { Center, Tile, Connector } from '../theme/components';
 import { ReactComponent as Tick } from '../assets/icons/tick.svg';
 
-const tickStyle = {
-    height: '1.6rem',
-    width: '1.6rem'
-};
-
 export class CategoryTiles extends React.Component {
 
     handleSelect = (category) => {
@@ -41,7 +36,7 @@ export class CategoryTiles extends React.Component {
                         return (
                             <React.Fragment key={index}>
                                 <Tile isCompleted={category.completed} isSelected={selected?.id === category.id || (selected === undefined && index === 0)} onClick={() => this.handleSelect(category)}>
-                                    {category.completed ? <Tick style={tickStyle} /> : (index + 1)}
+                                    {category.completed ? <Tick className="tick" /> : (index + 1)}
                                 </Tile>
                                 {(index !== categories.length - 1) && <Connector />}
                             </React.Fragment>
