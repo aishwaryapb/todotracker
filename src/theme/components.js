@@ -56,6 +56,10 @@ export const Logo = styled.img.attrs(props => ({
     @media ${mxb.tablet}, ${mxb.iPadPro} { 
         height: 8vh;
     }
+
+    @media ${mxb.mobileM} {
+        height: 7vh;
+    }
 `;
 
 export const Menu = styled.div`
@@ -116,6 +120,10 @@ export const MenuItem = styled(Link).attrs(props => ({
         font-size: ${props => props.theme.small}px;
     }
 
+    @media ${mxb.mobileM} {
+        font-size: 16px;
+    }
+
     @media ${mxb.mobileS} {
         font-size: ${props => props.theme.xSmall}px;
     }
@@ -149,6 +157,12 @@ export const Button = styled.button.attrs(props => ({
 
     @media ${mxb.iPadPro} {
         font-size: ${props => props.theme.medium}px;
+    }
+
+    @media ${mxb.mobileM} {
+        font-size: 16px;
+        min-width: 25vw;
+        min-height: 5vh;
     }
 
     @media ${mxb.mobileS} {
@@ -207,6 +221,19 @@ export const Input = styled.input.attrs(props => ({
     @media ${mxb.mobileL} {
         font-size: ${props => props.theme.small}px;
         padding: 0 2vw;
+    }
+
+    @media ${mxb.mobileM} {
+        height: 8vh;
+    }
+`;
+
+export const LinkText = styled.span`
+    margin-top: 5.5vh;
+    margin-right: 2vw;
+
+    @media ${mxb.mobileM} {
+        margin-top: 4.5vh;
     }
 `;
 
@@ -329,6 +356,7 @@ export const ItemContent = styled.div`
 
     @media ${mxb.mobileL} { 
         font-size: ${props => props.theme.xSmall}px;
+        text-align: left;
     }
 
     @media ${mxb.mobileS} {
@@ -365,6 +393,8 @@ export const ListInput = styled.input.attrs(props => ({
     min-height: 5vh;
     padding: 1vh 1vw;
     font-size: ${props => props.theme.xSmall}px;
+    -webkit-appearance: none;
+    border-radius: 0;
 
     @media ${mxb.tablet}, ${mxb.iPadPro} { 
         font-size: ${props => props.theme.medium}px;
@@ -399,6 +429,24 @@ export const TrackerContainer = styled.div`
     @media ${mxb.mobileL} {
         width: 100vw;
     }
+`;
+
+export const NoCategories = styled.img.attrs(props => ({
+    alt: props.alt,
+    src: props.src
+}))`
+    margin: 5vh auto;
+    height: 60vh;
+    width: auto;
+
+    @media ${mxb.mobileL} {
+        height: 50vh;
+    }
+
+    @media ${mxb.mobileM} {
+        height: 45vh;
+    }
+
 `;
 
 export const CategoriesTracker = styled.div`

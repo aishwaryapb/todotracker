@@ -2,18 +2,12 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Center, TrackerContainer, CategoriesTracker } from '../theme/components';
+import { Center, TrackerContainer, CategoriesTracker, NoCategories } from '../theme/components';
 import CategoryTiles from '../components/CategoryTiles';
 import TasksList from '../components/TasksList';
 import { fetchCategories } from '../actions/categories';
 import { clearTracker } from '../actions';
 import NoTasks from '../assets/images/no_data.png';
-
-const imgStyle = {
-    margin: "5vh auto",
-    height: "60vh",
-    width: "auto"
-}
 
 export class Tracker extends React.Component {
 
@@ -43,7 +37,7 @@ export class Tracker extends React.Component {
                                         <TasksList />
                                     </React.Fragment>
                                 )
-                                : <img src={NoTasks} alt="No Data" style={imgStyle} />
+                                : <NoCategories src={NoTasks} alt="No Data" />
                         }
                     </TrackerContainer>
                 </Center>

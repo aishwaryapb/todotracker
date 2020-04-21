@@ -2,13 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { LoginContainer, Input, Button, Loader } from '../theme/components';
+import { LoginContainer, Input, Button, Loader, LinkText } from '../theme/components';
 import { login, signUp } from '../actions/auth';
-
-const linkStyle = {
-    marginTop: "5.5vh",
-    marginRight: "2vw"
-};
 
 export class Login extends React.Component {
     state = {
@@ -40,7 +35,7 @@ export class Login extends React.Component {
                                         <Input type="text" name="email" onChange={this.handleInputChange} placeholder="Email" value={this.state.email} /><br />
                                         <Input type="password" name="password" onChange={this.handleInputChange} placeholder="Password" value={this.state.password} /><br />
                                         <Button type="submit" className="float-right" vm={4} onClick={isCreate ? this.handleSignUp : this.handleLogin}>{isCreate ? "Sign Up" : "Login"}</Button>
-                                        <span style={linkStyle} className="float-right link" onClick={() => this.setState({ isCreate: !isCreate })}>{isCreate ? "Login" : "Create Account"}</span>
+                                        <LinkText className="float-right link" onClick={() => this.setState({ isCreate: !isCreate })}>{isCreate ? "Login" : "Create Account"}</LinkText>
                                     </form>
                                 </React.Fragment>
                             )
