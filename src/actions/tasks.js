@@ -151,21 +151,6 @@ export const toggleTask = (tasks, task) => async dispatch => {
         })
 }
 
-export const deleteAssociatedTasks = (categoryId) => {
-    db.collection("tasks")
-        .where("categoryId", "==", categoryId)
-        .get()
-        .then(querySnapshot => {
-            let batch = db.batch();
-            querySnapshot.docs.forEach(doc => {
-                const docRef = db.collection('tasks').doc(doc.id);
-                batch.delete(docRef)
-            });
-            batch.commit();
-        })
-        .catch(err => console.error(err));
-}
-
 export const toggleSelectedCategory = (isComplete) => ({
     type: "TOGGLE_SELECTED_CATEGORY",
     payload: isComplete
