@@ -1,10 +1,8 @@
 import firebase from 'firebase/app';
-import "firebase/firebase-firestore"
 import "firebase/auth";
 
 export const rfConfig = {
-    userProfile: 'users', // root that user profiles are written to
-    useFirestoreForProfile: true
+    userProfile: 'users'
 };
 
 export const fbConfig = {
@@ -18,7 +16,5 @@ export const fbConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(fbConfig);
-
-export const db = firebaseApp.firestore();
 
 export default firebaseApp;

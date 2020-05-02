@@ -11,16 +11,16 @@ export class CategoryTiles extends React.Component {
         this.props.selectCategory(category);
     }
 
-    loadTasks() {
+    loadTasks(shouldFetch = true) {
         const { categories, selected } = this.props;
         if (selected === undefined && categories?.length > 0) {
-            this.props.fetchAllTasks();
+            if (shouldFetch) this.props.fetchAllTasks();
             this.props.selectCategory(categories[0]);
         }
     }
 
     componentDidMount() {
-        this.loadTasks();
+        this.loadTasks(false);
     }
 
     componentDidUpdate() {

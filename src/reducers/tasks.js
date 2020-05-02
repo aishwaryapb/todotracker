@@ -4,6 +4,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case "FETCH_ALL_TASKS":
+            return { ...state, data: action.payload }
         case "UPDATE_TASKS":
             return { ...state, data: { ...state.data, ...action.payload } };
         case "DELETE_TASK":

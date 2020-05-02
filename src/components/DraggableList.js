@@ -54,7 +54,7 @@ export class DraggableList extends React.Component {
                                 onClick: () => {
                                     if (this.isDeleting) this.isDeleting = false
                                     else {
-                                        toggleItem(items, item)
+                                        toggleItem(item)
                                         this.itemToggled = idx;
                                     }
                                 },
