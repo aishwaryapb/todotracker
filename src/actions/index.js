@@ -15,7 +15,7 @@ export const setBtnLoading = (loading) => {
 export const setError = (error) => {
     return {
         type: "SET_ERROR",
-        payload: error
+        payload: error?.toString()
     }
 }
 
@@ -26,6 +26,6 @@ export const clearTracker = () => ({
 export const setSuccess = (msg) => {
     return {
         type: "SET_SUCCESS",
-        payload: msg
+        payload: msg?.toString()
     }
 }

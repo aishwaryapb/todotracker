@@ -1,32 +1,26 @@
-import { db } from '../firebase';
 import { setLoading, setError, setSuccess } from '.';
-import { deleteAssociatedTasks, toggleSelectedCategory } from './tasks';
+import { toggleSelectedCategory } from './tasks';
 import { batch } from 'react-redux';
+import api from '../api';
+import CONFIG from '../config';
 
-export const fetchCategories = () => (dispatch, getState) => {
+export const fetchCategories = () => async (dispatch, getState) => {
     dispatch(setLoading(true));
     const { auth } = getState();
     const { user } = auth;
-    user &&
-        db.collection('categories')
-            .where("user", "==", user)
-            .orderBy("order", "asc")
-            .get()
-            .then(querySnapshot => {
-                const data = querySnapshot?.docs?.map(doc => ({ ...doc.data(), id: doc.id }));
-                batch(() => {
-                    dispatch({ type: "FETCH_CATEGORIES", payload: data });
-                    dispatch(setLoading(false));
-                });
-            })
-            .catch(err => {
-                console.error(err);
-                let msg = "Unable to retrieve categories";
-                batch(() => {
-                    dispatch(setLoading(false));
-                    dispatch(setError(msg));
-                });
+    if (user) {
+        const response = await api.get('/categories', { params: { user } });
+        if (response.status === CONFIG.HTTP_STATUS.OK) {
+            dispatch({ type: "FETCH_CATEGORIES", payload: response.data });
+            dispatch(setLoading(false));
+        }
+        else {
+            batch(() => {
+                dispatch(setLoading(false));
+                dispatch(setError(response.data));
             });
+        }
+    }
 }
 
 export const updateCategories = (categories) => {
@@ -36,68 +30,46 @@ export const updateCategories = (categories) => {
     }
 }
 
-export const addCategory = (name, categories) => (dispatch, getState) => {
+export const addCategory = (name, categories) => async (dispatch, getState) => {
     dispatch(setLoading(true));
     const { auth } = getState();
     const { user } = auth;
-    const lastIndex = categories[categories.length - 1]?.order;
-    db.collection('categories')
-        .doc()
-        .set({ name, order: lastIndex !== undefined ? lastIndex + 1 : 0, user, completed: false })
-        .then(() => {
-            dispatch(fetchCategories());
-        })
-        .catch(err => {
-            console.error(err);
-            let msg = "Unable to create category";
-            batch(() => {
-                dispatch(setError(msg));
-                dispatch(setLoading(false));
-            });
-        });
+    const response = await api.post('/categories', { user, name })
+    if (response.status === CONFIG.HTTP_STATUS.CREATED) dispatch(fetchCategories())
+    else {
+        dispatch(setError(response.data));
+        dispatch(setLoading(false));
+    }
 }
 
-export const reorderCategories = (categories) => (dispatch, getState) => {
+export const reorderCategories = (categories) => async (dispatch, getState) => {
     const { auth } = getState();
     const { user } = auth;
-    db.collection('categories')
-        .where("user", "==", user)
-        .get()
-        .then(querySnapshot => {
-            let batch = db.batch();
-            querySnapshot.docs.forEach(doc => {
-                const docRef = db.collection('categories').doc(doc.id);
-                const item = doc.data();
-                batch.update(docRef, { ...item, order: categories.findIndex(category => category.id === doc.id) });
-            });
-            batch.commit();
-        })
-        .catch(err => {
-            console.error(err);
-            let msg = "Unable to reorder the categories";
-            dispatch(setError(msg));
-        })
+    const response = await api.put('/categories/reorder', { user, categories });
+    if (response.status !== CONFIG.HTTP_STATUS.OK) dispatch(setError(response.data))
 }
 
-export const deleteCategory = (category) => (dispatch) => {
-    db.collection('categories')
-        .doc(category.id)
-        .delete()
-        .then(() => {
+export const deleteCategory = (category) => async (dispatch) => {
+    dispatch(setLoading(true));
+    const response = await api.delete('/categories/' + category.id);
+    if (response.status === CONFIG.HTTP_STATUS.OK) {
+        batch(() => {
             dispatch({
                 type: "DELETE_CATEGORY",
                 payload: category.id
             });
-            deleteAssociatedTasks(category.id);
+            dispatch(setLoading(false));
+        });
+    }
+    else {
+        batch(() => {
+            dispatch(setError(response.data));
+            dispatch(setLoading(false));
         })
-        .catch(err => {
-            console.error(err);
-            let msg = "Unable to delete the category";
-            dispatch(setError(msg));
-        })
+    }
 }
 
-export const toggleCategoryCompletion = () => (dispatch, getState) => {
+export const toggleCategoryCompletion = () => async (dispatch, getState) => {
     const allTasks = getState().tasks.data;
     let category = getState().tasks.selectedCategory;
     const categories = getState().categories;
@@ -115,15 +87,15 @@ export const toggleCategoryCompletion = () => (dispatch, getState) => {
         if (!updatedCategory.completed) isAllCategoriesComplete = false;
     });
 
-    db.collection("categories")
-        .doc(category.id)
-        .set({ completed: isCategoryComplete }, { merge: true })
-        .then(() => {
-            batch(() => {
-                dispatch(toggleSelectedCategory(isCategoryComplete));
-                dispatch(updateCategories(updatedCategories));
-                if (isAllCategoriesComplete) dispatch(setSuccess("Congratulations! You have completed all your tasks 🎉"))
-            })
-        });
+    const response = await api.put('/categories', { category });
+
+    if (response.status === CONFIG.HTTP_STATUS.OK) {
+        batch(() => {
+            dispatch(toggleSelectedCategory(isCategoryComplete));
+            dispatch(updateCategories(updatedCategories));
+            if (isAllCategoriesComplete) dispatch(setSuccess(CONFIG.messages.allTasksComplete))
+        })
+    }
+    else dispatch(setError(response.data));
 
 }

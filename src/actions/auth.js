@@ -3,6 +3,7 @@ import { batch } from 'react-redux'
 import firebase from '../firebase';
 import history from '../history';
 import { setError, setSuccess } from '.';
+import { initializeInterceptor } from '../api';
 
 export const verifyAuth = () => dispatch => {
     dispatch({ type: "REQUEST_LOGIN" });
@@ -10,7 +11,10 @@ export const verifyAuth = () => dispatch => {
         .auth()
         .onAuthStateChanged(user => {
             if (user !== null && user.emailVerified === true) {
-                dispatch({ type: "LOGIN_SUCCESS", payload: user.email });
+                user.getIdToken(true).then((idToken) => {
+                    initializeInterceptor(idToken);
+                    dispatch({ type: "LOGIN_SUCCESS", payload: user.email });
+                });
             }
             else dispatch({ type: "LOGIN_REQUIRED" })
         });
@@ -22,7 +26,12 @@ export const login = (credentials) => (dispatch) => {
         .auth()
         .signInWithEmailAndPassword(credentials.email, credentials.password)
         .then(({ user }) => {
-            if (user.emailVerified === true) dispatch({ type: "LOGIN_SUCCESS", payload: user.email })
+            if (user.emailVerified === true) {
+                user.getIdToken(true).then((idToken) => {
+                    initializeInterceptor(idToken);
+                    dispatch({ type: "LOGIN_SUCCESS", payload: user.email })
+                });
+            }
             else {
                 batch(() => {
                     dispatch({ type: "LOGIN_FAILED" });
