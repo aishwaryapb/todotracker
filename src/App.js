@@ -17,16 +17,18 @@ import CONFIG from './config';
 
 class App extends Component {
 
-    handleOfflineConnection = () => {
-        this.props.setError(CONFIG.messages.connectivityLost);
-    }
+    handleOfflineConnection = () => this.props.setError(CONFIG.messages.connectivityLost);
+
+    handleOnlineConnection = () => this.props.setError();
 
     componentDidMount() {
         window.addEventListener('offline', this.handleOfflineConnection);
+        window.addEventListener('online', this.handleOnlineConnection);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('offline', this.handleOfflineConnection)
+        window.removeEventListener('offline', this.handleOfflineConnection);
+        window.removeEventListener('online', this.handleOnlineConnection);
     }
 
     render() {
