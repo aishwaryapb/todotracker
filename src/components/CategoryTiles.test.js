@@ -52,17 +52,16 @@ describe('Check Category Tiles Section', () => {
 
         // Mount
         expect(props.selectCategory).toHaveBeenCalledTimes(1);
-        expect(props.fetchAllTasks).toHaveBeenCalledTimes(1);
 
         // state.selected is undefined
         wrapper.setProps({ selected: undefined });
         expect(props.selectCategory).toHaveBeenCalledTimes(2);
-        expect(props.fetchAllTasks).toHaveBeenCalledTimes(2);
+        expect(props.fetchAllTasks).toHaveBeenCalledTimes(1);
 
         // state.selected is defined
         wrapper.setProps({ selected: '1' });
         expect(props.selectCategory).toHaveBeenCalledTimes(2);
-        expect(props.fetchAllTasks).toHaveBeenCalledTimes(2);
+        expect(props.fetchAllTasks).toHaveBeenCalledTimes(1);
     })
 
     it('Check if category is selected on click of the tile', () => {

@@ -7,10 +7,10 @@ import { createStore } from 'redux';
 import { Tracker } from './Tracker';
 
 const props = {
-    fetchCategories: jest.fn(),
+    fetchCategories: () => new Promise((res) => res()),
     clearTracker: jest.fn(),
     categories: ['Test'],
-    testClearTracker: jest.fn()
+    testClearTracker: jest.fn(),
 }
 
 const mountComponent = (loggedIn = true, categories = props.categories, clearTracker) => mount(
@@ -31,17 +31,6 @@ describe('Check Tracker page', () => {
     let wrapper;
 
     afterEach(() => wrapper?.exists() && wrapper.unmount())
-
-    it('Check fetching categories if logged in', () => {
-        // Not logged in
-        wrapper = mountComponent(false);
-        expect(props.fetchCategories).toHaveBeenCalledTimes(0);
-        wrapper.unmount();
-
-        //Logged in
-        wrapper = mountComponent(true);
-        expect(props.fetchCategories).toHaveBeenCalledTimes(1);
-    })
 
     it('Check conditional display based on user login', () => {
         // Not logged in
