@@ -1,7 +1,7 @@
 export const theme = {
     // Add colors and sizes here
-    bgColor: '#BFE7EC',
-    primaryColor: '#303C6C',
+    bgColor: '#303C6C',
+    primaryColor: '#BFE7EC',
     secondaryColor: '#F4976C',
     yellow: '#FBE8A6',
     green: '#5CDB95',

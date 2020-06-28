@@ -82,8 +82,7 @@ export const MobileMenu = styled.div`
     display:none;
     flex-direction: column;
     padding: 1vh 1vw;
-    background-color: ${props => props.theme.primaryColor};
-    color: white;
+    background-color: white;
     justify-content: center;
     align-items: center;
 
@@ -107,14 +106,14 @@ export const MobileMenuIcon = styled.div`
 export const MenuItem = styled(Link).attrs(props => ({
     to: props.path
 }))`
-    color: ${props => props.theme.primaryColor};
+    color: ${props => props.selected ? props.theme.primaryColor : "white"};
     font-weight: ${props => props.selected ? 'bold' : 'normal'};
     text-decoration: none;
     margin: auto 2vw;
     font-size: ${props => props.theme.large}px;
 
     @media ${mxb.mobileL} {
-        color: white;
+        color: ${props => props.theme.bgColor};
         margin: 2vh 0;
         text-decoration: ${props => props.selected ? 'underline' : 'none'};
         font-size: ${props => props.theme.small}px;
@@ -133,26 +132,32 @@ export const MenuItem = styled(Link).attrs(props => ({
 export const Button = styled.button.attrs(props => ({
     type: props.type ?? 'button'
 }))`
-    background-color: ${props => props.theme.primaryColor};
+    background-color: transparent;
     color: white;
     font-size: ${props => props.theme.small}px;
-    border: none;
+    border: 1px solid white;
     padding: 4px 15px;
     margin: ${props => `${props.vm ? props.vm : 0}vh ${props.hm ? props.hm : 0}vw`};
     min-width: 10vw;
     min-height: 6vh;
     border-radius: 5px;
+    cursor: pointer;
     &:focus {
         outline: none;
     }
 
     &:hover {
-        outline: 3px solid white;
-        cursor: pointer;
+        background-color: white;
+        color: ${props => props.theme.bgColor}
     }
 
     @media ${mxb.tablet}, ${mxb.iPadPro} { 
         min-width: 15vw;
+    }
+
+    @media ${mxb.mobileL} {
+        border: ${props => props.mBorderless ? 'none' : '1px solid white'};
+        color: ${props => props.mBorderless ? props.theme.bgColor : 'white'}
     }
 
     @media ${mxb.iPadPro} {
@@ -231,6 +236,7 @@ export const Input = styled.input.attrs(props => ({
 export const LinkText = styled.span`
     margin-top: 5.5vh;
     margin-right: 2vw;
+    color: white;
 
     @media ${mxb.mobileM} {
         margin-top: 4.5vh;
