@@ -84,15 +84,15 @@ input:focus {
 
 .loader-container {
     position: absolute;
-    opacity: 0.4;
-    background: #303C6C;
+    opacity: 0.8;
+    background: #BFE7EC;
     width: 150%;
     height: 5px;
 }
 
 .loader-bar {
     position: absolute;
-    background: #303C6C;
+    background: #BFE7EC;
     height: 5px;
 }
 

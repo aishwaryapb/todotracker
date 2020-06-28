@@ -217,6 +217,7 @@ export const Input = styled.input.attrs(props => ({
 
     @media ${mxb.tablet}, ${mxb.iPadPro} { 
         width: 97%;
+        height: 6vh;
     }
 
     @media ${mxb.iPadPro} {
@@ -224,13 +225,11 @@ export const Input = styled.input.attrs(props => ({
     }
 
     @media ${mxb.mobileL} {
+        height: 6vh;
         font-size: ${props => props.theme.small}px;
         padding: 0 2vw;
     }
 
-    @media ${mxb.mobileM} {
-        height: 8vh;
-    }
 `;
 
 export const LinkText = styled.span`
@@ -238,8 +237,9 @@ export const LinkText = styled.span`
     margin-right: 2vw;
     color: white;
 
-    @media ${mxb.mobileM} {
-        margin-top: 4.5vh;
+    @media ${mxb.mobileL} {
+        margin-right: 6vw;
+        margin-top: 5vh;
     }
 `;
 
